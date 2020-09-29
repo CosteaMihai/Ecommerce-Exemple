@@ -1,41 +1,42 @@
 <template>
     <div>
-        <form v-show="!loginDone" class="mx-auto max-w-xs mt-10 flex flex-col justify-center">
+        <form class="flex flex-col justify-center max-w-xs mx-auto mt-10">
             <div class="text-center">Admin</div>
             <input
                 type="text"
-                class="bg-gray-200 w-full py-1 px-2 rounded-lg text-center mt-1 mb-4"
+                class="w-full px-2 py-1 mt-1 mb-4 text-center bg-gray-200 rounded-lg"
                 v-model="admin"
                 disabled
             />
             <div class="text-center">Password</div>
             <input
                 type="password"
-                class="bg-gray-200 w-full py-1 px-2 rounded-lg text-center mt-1 mb-8"
+                class="w-full px-2 py-1 mt-1 mb-8 text-center bg-gray-200 rounded-lg"
                 v-model="password"
             />
-            <button class="bg-blue-500 text-white py-2 mx-16 rounded-lg" @click.prevent="verifyAdmin()">
+            <button
+                class="py-2 mx-16 text-white bg-blue-500 rounded-lg"
+                @click.prevent="verifyAdmin()"
+            >
                 Verify
             </button>
-            <div v-if="error == 'password'" class="mt-6 text-center italic text-red-500">Wrong Password</div>
+            <div
+                v-if="error == 'password'"
+                class="mt-6 italic text-center text-red-500"
+            >
+                Wrong Password
+            </div>
         </form>
-        <div v-show="loginDone">
-            <AdminData />
-        </div>
     </div>
 </template>
 
 <script>
-import AdminData from '@/components/AdminData';
-import { db } from '../main';
+import { db } from '@/main';
 export default {
-    components: {
-        AdminData,
-    },
     data() {
         return {
             admin: 'admin',
-            password: '',
+            password: 'admin',
             loginDone: false,
             error: '',
         };
@@ -49,7 +50,7 @@ export default {
                 .then((doc) => {
                     if (doc.exists) {
                         if (this.password == doc.data().password) {
-                            this.loginDone = true;
+                            this.$router.push({ name: 'Admin Dashboard' });
                         } else {
                             this.error = 'password';
                         }

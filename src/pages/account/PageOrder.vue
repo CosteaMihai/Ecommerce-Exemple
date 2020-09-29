@@ -1,7 +1,10 @@
 <template>
-    <div class="flex flex-col px-10 pt-5 pb-10 mx-32 mt-10 mb-10 text-white bg-blue-500 rounded-lg">
+    <div
+        class="flex flex-col px-10 pt-5 pb-10 mx-32 mt-10 mb-10 text-white bg-blue-500 rounded-lg"
+    >
         <div class="font-thin">
-            Order number: <span class="font-semibold">{{ $route.params.id }}</span>
+            Order number:
+            <span class="font-semibold">{{ $route.params.id }}</span>
         </div>
         <div class="mt-5 font-thin">
             Products:
@@ -13,11 +16,17 @@
                 <div class="flex items-center justify-between">
                     <div class="flex">
                         <div class="flex-none px-4 overflow-hidden">
-                            <img class="object-cover w-32 h-32" :src="item.product.urlPoza" :alt="item.product.name" />
+                            <img
+                                class="object-cover w-32 h-32"
+                                :src="item.product.urlPhoto"
+                                :alt="item.product.name"
+                            />
                         </div>
                         <div class="flex flex-col ml-10">
                             <div class="mt-2">{{ item.product.name }}</div>
-                            <div class="mt-2 text-xs">{{ item.product.manufacture }}</div>
+                            <div class="mt-2 text-xs">
+                                {{ item.product.manufacture }}
+                            </div>
                         </div>
                     </div>
 
@@ -30,7 +39,8 @@
         </div>
         <div class="flex justify-between px-2 mt-5">
             <div>
-                Payment method: <span class="uppercase">{{ order.paymentMethod }}</span>
+                Payment method:
+                <span class="uppercase">{{ order.paymentMethod }}</span>
             </div>
             <div>
                 Total order: <span class="uppercase">${{ total }}</span>
@@ -49,11 +59,13 @@ export default {
     },
     computed: {
         total() {
-            let total = 0;
-            for (let item of this.order.products) {
-                total = item.quantity * item.product.price;
+            if (Object.entries(this.order).length) {
+                let total = 0;
+                for (let item of this.order.products) {
+                    total += item.quantity * item.product.price;
+                }
+                return total;
             }
-            return total;
         },
     },
     async created() {
@@ -71,7 +83,6 @@ export default {
         } catch (error) {
             console.log('Error getting document:', error);
         }
-        console.log(this.order);
     },
 };
 </script>

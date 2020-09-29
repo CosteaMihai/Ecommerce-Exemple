@@ -1,10 +1,19 @@
 <template>
     <div>
-        <header class="bg-white sm:flex sm:justify-between sm:items-center sm:px-8 sm:py:3">
+        <header
+            class="bg-white sm:flex sm:justify-between sm:items-center sm:px-8 sm:py:3"
+        >
             <div class="flex items-center justify-between px-4 py-3 sm:p-0">
                 <div>
-                    <router-link :to="{ name: 'Home' }" class="flex flex-col items-center pt-3 text-blue-500">
-                        <img class="h-8" src="@/assets/logo.png" alt="eCommerce" />
+                    <router-link
+                        :to="{ name: 'Home' }"
+                        class="flex flex-col items-center pt-3 text-blue-500"
+                    >
+                        <img
+                            class="h-8"
+                            src="@/assets/logo.png"
+                            alt="eCommerce"
+                        />
                         <div>E-commerce</div>
                     </router-link>
                 </div>
@@ -108,6 +117,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import store from '../store/index';
 export default {
     data() {
@@ -116,9 +126,7 @@ export default {
         };
     },
     computed: {
-        cartLength() {
-            return store.state.cart.length ? store.state.cart.length : 0;
-        },
+        ...mapGetters('cart', ['cartLength']),
         currentUser() {
             return store.state.currentUser ? true : false;
         },

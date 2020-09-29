@@ -5,16 +5,23 @@
             class="col-start-2 col-end-12 px-5 py-5 mb-2 text-white bg-blue-500 rounded-lg shadow-lg"
         >
             <div class="text-lg font-semibold">Personal information</div>
-            <div class="pt-2">{{ currentUser.firstName }} {{ currentUser.lastName }}</div>
+            <div class="pt-2">
+                {{ currentUser.firstName }} {{ currentUser.lastName }}
+            </div>
             <div class="pt-2">{{ currentUser.email }}</div>
             <div class="pt-2">{{ currentUser.phone }}</div>
         </div>
-        <div v-else class="col-start-2 col-end-12 px-5 pt-5 pb-10 text-white bg-blue-500 rounded-lg shadow-lg">
+        <div
+            v-else
+            class="col-start-2 col-end-12 px-5 pt-5 pb-10 text-white bg-blue-500 rounded-lg shadow-lg"
+        >
             <div class="text-lg font-semibold">Personal information</div>
             <div class="flex flex-col w-full">
                 <div class="flex items-center w-full">
                     <input
-                        :class="$v.user.name.$error ? 'border-2 border-red-500' : ''"
+                        :class="
+                            $v.user.name.$error ? 'border-2 border-red-500' : ''
+                        "
                         class="w-1/3 px-4 py-2 mt-3 text-blue-500 rounded focus:outline-none"
                         type="text"
                         placeholder="Full Name"
@@ -22,12 +29,21 @@
                         @blur="$v.user.name.$touch()"
                     />
                     <div v-if="$v.user.name.$error" class="mt-3 ml-5">
-                        <p v-if="!$v.user.name.required" class="text-sm italic text-red-800">This field is required!</p>
+                        <p
+                            v-if="!$v.user.name.required"
+                            class="text-sm italic text-red-800"
+                        >
+                            This field is required!
+                        </p>
                     </div>
                 </div>
                 <div class="flex items-center w-full">
                     <input
-                        :class="$v.user.email.$error ? 'border-2 border-red-500' : ''"
+                        :class="
+                            $v.user.email.$error
+                                ? 'border-2 border-red-500'
+                                : ''
+                        "
                         class="w-1/3 px-4 py-2 mt-4 text-blue-500 rounded focus:outline-none"
                         type="email"
                         placeholder="Email"
@@ -35,10 +51,16 @@
                         @blur="$v.user.email.$touch()"
                     />
                     <div v-if="$v.user.email.$error" class="mt-4 ml-5">
-                        <p v-if="!$v.user.email.required" class="text-sm italic text-red-800">
+                        <p
+                            v-if="!$v.user.email.required"
+                            class="text-sm italic text-red-800"
+                        >
                             This field is required!
                         </p>
-                        <p v-else-if="!$v.user.email.email" class="text-sm italic text-red-800">
+                        <p
+                            v-else-if="!$v.user.email.email"
+                            class="text-sm italic text-red-800"
+                        >
                             Invalid email format!
                         </p>
                     </div>
@@ -46,7 +68,11 @@
 
                 <div class="flex items-center w-full">
                     <input
-                        :class="$v.user.phone.$error ? 'border-2 border-red-500' : ''"
+                        :class="
+                            $v.user.phone.$error
+                                ? 'border-2 border-red-500'
+                                : ''
+                        "
                         class="w-1/3 px-4 py-2 mt-4 text-blue-500 rounded focus:outline-none"
                         type="tel"
                         placeholder="Phone number"
@@ -55,16 +81,26 @@
                         @blur="$v.user.phone.$touch()"
                     />
                     <div v-if="$v.user.phone.$error" class="mt-4 ml-5">
-                        <p v-if="!$v.user.phone.required" class="text-sm italic text-red-800">
+                        <p
+                            v-if="!$v.user.phone.required"
+                            class="text-sm italic text-red-800"
+                        >
                             This field is required!
                         </p>
-                        <p v-else-if="!$v.user.phone.minLength" class="text-sm italic text-red-800">Missing digits!</p>
+                        <p
+                            v-else-if="!$v.user.phone.minLength"
+                            class="text-sm italic text-red-800"
+                        >
+                            Missing digits!
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-start-2 col-end-12 px-5 py-5 mt-10 border border-blue-500 rounded-lg shadow-lg">
+        <div
+            class="col-start-2 col-end-12 px-5 py-5 mt-10 border border-blue-500 rounded-lg shadow-lg"
+        >
             <div v-for="(product, index) in cartProducts" :key="index">
                 <CheckoutProduct :product="product" class="border-b" />
             </div>
@@ -73,11 +109,17 @@
                 <div>${{ totalCart }}</div>
             </div>
         </div>
-        <div class="col-start-2 col-end-12 px-5 py-5 mt-10 mb-16 text-white bg-blue-500 rounded-lg shadow-lg">
+        <div
+            class="col-start-2 col-end-12 px-5 py-5 mt-10 mb-16 text-white bg-blue-500 rounded-lg shadow-lg"
+        >
             <div class="text-lg font-semibold">Payment method</div>
             <div class="flex items-center justify-between px-24 mt-10">
                 <button
-                    :class="paymentMethod == 'cash' ? 'border-blue-900 text-blue-900' : ''"
+                    :class="
+                        paymentMethod == 'cash'
+                            ? 'border-blue-900 text-blue-900'
+                            : ''
+                    "
                     class="flex flex-col items-center w-48 h-56 py-4 border-2 rounded-lg bg-neutral-2 focus:outline-none"
                     @click.prevent="paymentMethod = 'cash'"
                 >
@@ -99,7 +141,11 @@
                             <path d="m10 12h52v22h-52z" fill="#78b75b" />
                             <path d="m58 12v-4h-52v22h4v-18z" fill="#96cc7f" />
                             <path d="m54 8v-6h-52v22h4v-16z" fill="#78b75b" />
-                            <path d="m12 46h4v14h-4z" fill="#d5cec2" transform="matrix(-1 0 0 -1 28 106)" />
+                            <path
+                                d="m12 46h4v14h-4z"
+                                fill="#d5cec2"
+                                transform="matrix(-1 0 0 -1 28 106)"
+                            />
                             <path d="m2 44h10v18h-10z" fill="#758190" />
                             <circle cx="36" cy="23" fill="#96cc7f" r="8" />
                             <path
@@ -120,7 +166,10 @@
                             </g>
                             <path d="m18 21h6v4h-6z" fill="#96cc7f" />
                             <path d="m48 21h6v4h-6z" fill="#96cc7f" />
-                            <path d="m12 55.979c1.62-1.219 2.984-2.752 4-4.518v-5.461h-4z" fill="#e7e4dd" />
+                            <path
+                                d="m12 55.979c1.62-1.219 2.984-2.752 4-4.518v-5.461h-4z"
+                                fill="#e7e4dd"
+                            />
                             <path
                                 d="m2 58.949c.332.022.662.05 1 .05 3.382 0 6.491-1.133 9-3.02v-11.979h-10z"
                                 fill="#8892a0"
@@ -157,10 +206,16 @@
 
                 <button
                     class="flex flex-col items-center w-48 h-56 py-4 border-2 rounded-lg bg-neutral-2 focus:outline-none"
-                    :class="paymentMethod == 'card' ? 'border-blue-900 text-blue-900' : ''"
+                    :class="
+                        paymentMethod == 'card'
+                            ? 'border-blue-900 text-blue-900'
+                            : ''
+                    "
                     @click.prevent="paymentMethod = 'card'"
                 >
-                    <p class="text-xl text-center text-faruno">Card in location</p>
+                    <p class="text-xl text-center text-faruno">
+                        Card in location
+                    </p>
                     <svg
                         class="w-32 h-32 mx-auto mt-5"
                         version="1.1"
@@ -177,7 +232,10 @@
                             style="fill:#FEA832;"
                             d="M512,121v195c0,24.901-20.099,45-45,45H105c-24.901,0-45-20.099-45-45V121l30-30h392L512,121z"
                         />
-                        <path style="fill:#FE9923;" d="M512,121v195c0,24.901-20.099,45-45,45H286V91h196L512,121z" />
+                        <path
+                            style="fill:#FE9923;"
+                            d="M512,121v195c0,24.901-20.099,45-45,45H286V91h196L512,121z"
+                        />
                         <path
                             style="fill:#994C0F;"
                             d="M512,76v45H60V76c0-24.901,20.099-45,45-45h362C491.901,31,512,51.099,512,76z"
@@ -190,14 +248,26 @@
                             style="fill:#10BB67;"
                             d="M452,196v15l-30,30H226v-90h181C431.901,151,452,171.099,452,196z"
                         />
-                        <path style="fill:#713708;" d="M512,76v45H286V31h181C491.901,31,512,51.099,512,76z" />
-                        <polygon style="fill:#0D70B2;" points="452,211 452,271 422,301 30,301 0,271 0,211 " />
-                        <polygon style="fill:#095C92;" points="452,211 452,271 422,301 226,301 226,211 " />
+                        <path
+                            style="fill:#713708;"
+                            d="M512,76v45H286V31h181C491.901,31,512,51.099,512,76z"
+                        />
+                        <polygon
+                            style="fill:#0D70B2;"
+                            points="452,211 452,271 422,301 30,301 0,271 0,211 "
+                        />
+                        <polygon
+                            style="fill:#095C92;"
+                            points="452,211 452,271 422,301 226,301 226,211 "
+                        />
                         <path
                             style="fill:#32D736;"
                             d="M452,271v165c0,24.901-20.099,45-45,45H45c-24.901,0-45-20.099-45-45V271H452z"
                         />
-                        <path style="fill:#10BB67;" d="M452,271v165c0,24.901-20.099,45-45,45H226V271H452z" />
+                        <path
+                            style="fill:#10BB67;"
+                            d="M452,271v165c0,24.901-20.099,45-45,45H226V271H452z"
+                        />
                         <path
                             style="fill:#FD003A;"
                             d="M105,421c-24.814,0-45-20.186-45-45s20.186-45,45-45s45,20.186,45,45S129.814,421,105,421z"
@@ -251,14 +321,24 @@
                         <title />
                         <desc />
                         <defs />
-                        <g fill="none" fill-rule="evenodd" id="round-rect" stroke="none" stroke-width="1">
+                        <g
+                            fill="none"
+                            fill-rule="evenodd"
+                            id="round-rect"
+                            stroke="none"
+                            stroke-width="1"
+                        >
                             <g id="payu-money">
                                 <path
                                     d="M444,3.03581628e-06 C420,5.30180998e-06 165.902344,-4.81179503e-06 24,3.03581628e-06 C12,3.6994511e-06 -6.11066753e-13,12.0056015 -1.42108547e-14,24.0112 C-1.42108547e-14,96.1913435 2.8991193e-06,240.111972 -1.42108547e-14,264.123169 C-1.38851962e-06,288.134366 12,300.139965 36,300.139965 C169.869629,300.139965 420,300.139967 444,300.139965 C468,300.139965 480,288.134366 480,264.123169 C479.999998,240.111972 479.999994,115.769809 480,36.0167984 C480,12.0056015 468,3.03581628e-06 444,3.03581628e-06 Z"
                                     fill="#479951"
                                     id="rect"
                                 />
-                                <g fill="#FFFFFF" id="payU" transform="translate(72.000000, 66.000000)">
+                                <g
+                                    fill="#FFFFFF"
+                                    id="payU"
+                                    transform="translate(72.000000, 66.000000)"
+                                >
                                     <path
                                         d="M287.177553,41.6081114 L282.27585,41.6081114 C277.326811,41.6081114 273.308183,45.6252236 273.308183,50.5805826 L273.308183,106.875737 C273.308183,106.875737 272.845286,116.665881 256.583354,116.665881 C240.321421,116.665881 239.858525,106.875737 239.858525,106.875737 L239.858525,50.5805826 C239.858525,45.6293658 235.843563,41.6081114 230.890857,41.6081114 L221.087451,41.6081114 C216.138412,41.6081114 212.119784,45.6233751 212.119784,50.5764538 L212.119784,104.43616 C212.119784,123.801145 227.826765,139.50955 247.202309,139.50955 L265.964399,139.50955 C285.340472,139.50955 301.046924,123.806658 301.046924,104.43616 L301.046924,63.6359351 L311.656137,63.6359351 C313.902484,63.6359351 315.73214,61.8110465 315.73214,59.5599322 L315.73214,39.1573517 C315.73214,36.9110046 313.907251,35.0813488 311.656137,35.0813488 L291.253556,35.0813488 C289.007209,35.0813488 287.177553,36.9062375 287.177553,39.1573517 L287.177553,41.6081114 L287.177553,41.6081114 Z M287.177553,41.6081114 L292.079256,41.6081114 C297.031962,41.6081114 301.046924,45.6338641 301.046924,50.5764538 L301.046924,63.6359351 L291.253556,63.6359351 C289.002442,63.6359351 287.177553,61.8062793 287.177553,59.5599322 L287.177553,41.6081114 L287.177553,41.6081114 Z M314.916294,17.1372554 C314.916294,15.3324524 316.374279,13.8693705 318.184179,13.8693705 L332.860388,13.8693705 C334.665191,13.8693705 336.128273,15.3273556 336.128273,17.1372554 L336.128273,31.8134639 C336.128273,33.6182669 334.670287,35.0813488 332.860388,35.0813488 L318.184179,35.0813488 C316.379376,35.0813488 314.916294,33.6233637 314.916294,31.8134639 L314.916294,17.1372554 Z M301.046924,2.44144956 C301.046924,1.0930742 302.150702,0 303.488373,0 L313.29069,0 C314.639065,0 315.73214,1.10377797 315.73214,2.44144956 L315.73214,12.2437662 C315.73214,13.5921416 314.628362,14.6852158 313.29069,14.6852158 L303.488373,14.6852158 C302.139998,14.6852158 301.046924,13.5814378 301.046924,12.2437662 L301.046924,2.44144956 Z M172.355291,139.527078 C172.063072,139.581402 170.503098,139.820572 170.503098,139.820572 C154.70214,141.870899 151.570784,130.135985 148.828722,121.179557 L135.070369,69.9984861 C134.368009,67.3857041 135.983499,65.2676257 138.696422,65.2676257 L141.954368,65.2676257 C144.659343,65.2676257 147.420207,67.3807699 148.123735,69.997891 C148.123735,69.997891 156.881642,102.577305 161.896383,121.232144 C163.386568,125.013556 165.29273,128.509182 169.42972,128.509182 C173.566709,128.509182 175.734486,127.656974 177.630401,120.602892 L189.572796,70.0333723 C190.194376,67.4013231 192.890876,65.2676257 195.59904,65.2676257 L198.809588,65.2676257 C201.516211,65.2676257 203.189064,67.4027467 202.548419,70.0266857 L186.756873,134.705305 C179.487962,163.249932 170.144781,167.398872 155.048455,168 C150.441798,167.398872 148.068755,158.046528 151.828496,156.534744 C151.828496,156.534744 159.437042,156.587669 163.835524,153.398042 C168.588522,149.951332 170.609766,144.438294 171.709055,141.294509 C171.773837,141.284178 172.278482,139.706016 172.355291,139.527078 Z"
                                     />
@@ -277,7 +357,10 @@
                 </button>
             </div>
         </div>
-        <div class="mb-12 -mt-12 italic text-center text-red-500" v-if="paymentMethodError">
+        <div
+            class="mb-12 -mt-12 italic text-center text-red-500"
+            v-if="paymentMethodError"
+        >
             Select a payment method!
         </div>
         <div class="flex justify-between mb-20">
@@ -302,6 +385,7 @@ import CheckoutProduct from '../components/CheckoutProduct';
 import { mask } from 'vue-the-mask';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { db } from '../main';
+import { mapGetters } from 'vuex';
 import store from '../store/index';
 export default {
     directives: { mask },
@@ -325,7 +409,10 @@ export default {
             this.error = '';
             this.paymentMethodError = false;
             if (this.paymentMethod) {
-                if (this.currentUser && Object.values(this.currentUser).length) {
+                if (
+                    this.currentUser &&
+                    Object.values(this.currentUser).length
+                ) {
                     db.collection('orders')
                         .add({
                             userID: this.currentUser.id,
@@ -368,17 +455,7 @@ export default {
         currentUser() {
             return store.state.currentUser;
         },
-        cartProducts() {
-            return store.state.cart;
-        },
-        totalCart() {
-            let total = 0;
-            for (let item of store.state.cart) {
-                console.log(item);
-                total += item.quantity * item.product.price;
-            }
-            return total;
-        },
+        ...mapGetters('cart', ['totalCart', 'cartProducts']),
     },
     validations: {
         user: {

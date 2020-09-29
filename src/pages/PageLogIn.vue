@@ -73,7 +73,9 @@ export default {
             if (this.assignPhone) return;
 
             try {
-                await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
+                await firebase
+                    .auth()
+                    .createUserWithEmailAndPassword(user.email, user.password);
             } catch (err) {
                 if (err) {
                     console.log(err);
@@ -127,14 +129,16 @@ export default {
             }
             if (this.newUserSignIn) return;
             try {
-                await firebase.auth().signInWithEmailAndPassword(user.email, user.password);
+                await firebase
+                    .auth()
+                    .signInWithEmailAndPassword(user.email, user.password);
             } catch (err) {
                 this.errorSignIn = err;
                 console.log(err);
             }
             if (this.errorSignIn) return;
 
-            Cookies.set('licenta-user', JSON.stringify(userSignIn));
+            //Cookies.set('licenta-user', JSON.stringify(userSignIn));
             store.commit('setCurrentUser', userSignIn);
             this.$router.push({ path: '/' });
         },

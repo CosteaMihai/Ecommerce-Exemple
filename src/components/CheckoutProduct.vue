@@ -1,9 +1,13 @@
 <template>
     <div class="flex">
         <div class="flex-none overflow-hidden">
-            <img class="h-32 w-32 object-cover" :src="product.product.urlPoza" :alt="product.product.name" />
+            <img
+                class="object-cover w-32 h-32"
+                :src="product.product.urlPhoto"
+                :alt="product.product.name"
+            />
         </div>
-        <div class="flex items-center ml-10 w-full justify-between px-10">
+        <div class="flex items-center justify-between w-full px-10 ml-10">
             <div class="font-semibold">
                 {{ product.product.name }}
                 <div class="-mb-2 font-normal">Qnt: {{ product.quantity }}</div>
@@ -15,7 +19,12 @@
 
 <script>
 export default {
-    props: ['product'],
+    props: {
+        product: {
+            type: Object,
+            required: true,
+        },
+    },
 };
 </script>
 

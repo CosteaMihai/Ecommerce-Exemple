@@ -7,17 +7,16 @@
 
 <script>
 import Navbar from './components/Navbar.vue';
-//import store from './store/index';
 import { mapActions } from 'vuex';
 export default {
     components: {
         Navbar,
     },
     methods: {
-        ...mapActions(['getProductsFromDatabase']),
+        ...mapActions('product', ['initialPage']),
     },
     created() {
-        this.getProductsFromDatabase();
+        this.initialPage();
     },
 };
 </script>

@@ -6,7 +6,8 @@ import PageCart from '@/pages/PageCart';
 import PageLogIn from '@/pages/PageLogIn';
 import PageAccount from '@/pages/account/PageAccount';
 import PageOrder from '@/pages/account/PageOrder';
-import PageAdmin from '@/pages/PageAdmin';
+import PageAdmin from '@/pages/admin/PageAdmin';
+import PageAdminDashboard from '@/pages/admin/PageAdminDashboard';
 import store from '../store';
 import { isEmpty } from 'underscore';
 import Cookies from 'js-cookie';
@@ -46,6 +47,11 @@ const router = new VueRouter({
             path: '/admin',
             name: 'Admin',
             component: PageAdmin,
+        },
+        {
+            path: '/admin/dashboard',
+            name: 'Admin Dashboard',
+            component: PageAdminDashboard,
         },
     ],
     mode: 'history',

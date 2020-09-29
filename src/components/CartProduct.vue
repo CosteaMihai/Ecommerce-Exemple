@@ -1,16 +1,32 @@
 <template>
-    <div class="max-w-6xl mx-auto border border-blue-200 py-2 px-2 rounded-lg flex relative">
+    <div
+        class="relative flex max-w-6xl px-2 py-2 mx-auto border border-blue-200 rounded-lg"
+    >
         <div class="flex-none overflow-hidden">
-            <img class="h-48 w-48 object-cover" :src="cartItem.product.urlPoza" :alt="cartItem.product.name" />
+            <img
+                class="object-cover w-48 h-48"
+                :src="cartItem.product.urlPhoto"
+                :alt="cartItem.product.name"
+            />
         </div>
-        <div class="flex flex-col ml-10 justify-center">
+
+        <div class="flex flex-col justify-center ml-10">
             <div class="font-semibold">{{ cartItem.product.name }}</div>
-            <div class="font-semibold mt-1">{{ cartItem.product.manufacture }}</div>
-            <div class="mt-1">${{ cartItem.product.price * cartItem.quantity }}</div>
-            <div class="flex justify-start items-center mt-6">
+            <div class="mt-1 font-semibold">
+                {{ cartItem.product.manufacture }}
+            </div>
+            <div class="mt-1">
+                ${{ cartItem.product.price * cartItem.quantity }}
+            </div>
+            <div class="flex items-center justify-start mt-6">
                 <button
-                    class="translation duration-300 flex items-center justify-center w-10 h-10 bg-gray-300 rounded-lg focus:outline-none transform hover:bg-gray-400"
+                    class="flex items-center justify-center w-10 h-10 duration-300 bg-gray-300 rounded-lg focus:outline-none"
                     @click="addOrSubstractItemQuantity(-1)"
+                    :class="
+                        cartItem.quantity == 1
+                            ? 'opacity-50'
+                            : 'hover:bg-gray-400'
+                    "
                 >
                     -
                 </button>
@@ -18,15 +34,18 @@
                 <p class="px-3">{{ cartItem.quantity }}</p>
 
                 <button
-                    class="translation duration-300 flex items-center justify-center w-10 h-10 bg-gray-300 rounded-lg focus:outline-none transform hover:bg-gray-400"
+                    class="flex items-center justify-center w-10 h-10 duration-300 bg-gray-300 rounded-lg focus:outline-none hover:bg-gray-400"
                     @click="addOrSubstractItemQuantity(1)"
                 >
                     +
                 </button>
             </div>
         </div>
-        <div class="absolute right-0 bottom-0 top-0 flex items-center mr-8">
-            <button class="focus:outline-none" @click="deleteCartItem()">
+        <div class="absolute top-0 bottom-0 right-0 flex items-center mr-8">
+            <button
+                class="focus:outline-none"
+                @click.prevent="deleteCartItem()"
+            >
                 <svg
                     height="512pt"
                     viewBox="0 0 512 512"
@@ -54,16 +73,15 @@ export default {
     props: ['cartItem'],
     methods: {
         addOrSubstractItemQuantity(value) {
-            if (this.cartItem.quantity > 1 || value != -1) {
-                const cartObject = {
-                    product: this.cartItem.product,
-                    quantity: value,
-                };
-                store.commit('addProductToCart', cartObject);
-            }
+            if (this.cartItem.quantity < 2 && value == -1) return;
+            const cartObject = {
+                product: this.cartItem.product,
+                quantity: value,
+            };
+            store.dispatch('cart/addToCart', cartObject);
         },
         deleteCartItem() {
-            store.commit('deleteProductFromCart', this.cartItem);
+            store.dispatch('cart/deleteFromCart', this.cartItem);
         },
     },
 };

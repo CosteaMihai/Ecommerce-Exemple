@@ -1,7 +1,9 @@
 <template>
     <div>
         <div class="max-w-lg mx-auto mt-20">
-            <div class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg">
+            <div
+                class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg"
+            >
                 <div class="mt-1 mb-1">Name</div>
                 <input
                     type="text"
@@ -10,7 +12,9 @@
                     v-model="product.name"
                 />
             </div>
-            <div class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg">
+            <div
+                class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg"
+            >
                 <div class="mt-1 mb-1">Manufacture</div>
                 <input
                     type="text"
@@ -19,7 +23,9 @@
                     v-model="product.manufacture"
                 />
             </div>
-            <div class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg">
+            <div
+                class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg"
+            >
                 <div class="mt-1 mb-1">Price</div>
                 <input
                     type="number"
@@ -28,7 +34,9 @@
                     v-model="product.price"
                 />
             </div>
-            <div class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg">
+            <div
+                class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg"
+            >
                 <div class="mt-1 mb-1">Stock</div>
                 <input
                     type="number"
@@ -37,7 +45,9 @@
                     v-model="product.stock"
                 />
             </div>
-            <div class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg">
+            <div
+                class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg"
+            >
                 <div class="mt-1 mb-1">Type</div>
                 <input
                     type="text"
@@ -46,7 +56,9 @@
                     v-model="product.type"
                 />
             </div>
-            <div class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg">
+            <div
+                class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg"
+            >
                 <div class="mt-1 mb-1">URL Doc</div>
                 <input
                     type="text"
@@ -55,18 +67,86 @@
                     v-model="product.urlDocumentation"
                 />
             </div>
-            <div class="flex flex-col items-center px-8 pb-3 mb-3 text-white bg-blue-500 rounded-lg">
-                <div class="mt-1 mb-1">URL Photo</div>
+            <label
+                class="flex flex-col items-center w-full h-64 px-4 py-0 mb-3 tracking-wide text-white duration-500 bg-blue-500 rounded-lg cursor-pointer hover:bg-blue-600"
+            >
+                <span
+                    v-show="loadingStatus === 'not loading'"
+                    class="mt-24 text-base"
+                >
+                    <svg
+                        class="w-8 h-8 mx-auto fill-current"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                    >
+                        <path
+                            d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"
+                        />
+                    </svg>
+                    Upload a photo
+                </span>
                 <input
-                    type="text"
-                    class="w-full py-2 mt-1 text-center text-black rounded-lg"
-                    placeholder="URL Photo"
-                    v-model="product.urlPoza"
+                    v-show="loadingStatus === 'not loading'"
+                    type="file"
+                    class="hidden"
+                    @change="previewimage()"
+                    accept="image/*"
                 />
-            </div>
+                <svg
+                    v-show="loadingStatus === 'loading'"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    style="margin: auto; background: none; display: block; shape-rendering: auto;"
+                    width="184px"
+                    height="184px"
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="xMidYMid"
+                >
+                    <circle
+                        cx="50"
+                        cy="50"
+                        fill="none"
+                        stroke="#90cdf4"
+                        stroke-width="5"
+                        r="22"
+                        stroke-dasharray="103.67255756846316 36.55751918948772"
+                    >
+                        <animateTransform
+                            attributeName="transform"
+                            type="rotate"
+                            repeatCount="indefinite"
+                            dur="0.8s"
+                            values="0 50 50;360 50 50"
+                            keyTimes="0;1"
+                        ></animateTransform>
+                    </circle>
+                </svg>
+
+                <img
+                    class="object-fill h-56 p-8 -mt-2"
+                    v-show="loadingStatus === 'done'"
+                    :src="picture"
+                    alt=""
+                />
+                <button
+                    class="px-5 py-2 -mt-2 bg-red-500 rounded-md hover"
+                    v-show="loadingStatus === 'done'"
+                    @click.self="
+                        picture = '';
+                        loadingStatus = 'not loading';
+                        productPicture = '';
+                    "
+                >
+                    Remove
+                </button>
+            </label>
             <div class="px-4 py-3 mb-16 text-white bg-blue-500 rounded-lg">
                 <div class="pt-1 pb-3 text-center">Specifications</div>
-                <div v-for="(row, index) in product.specification" :key="index" class="flex flex-col">
+                <div
+                    v-for="(row, index) in product.specification"
+                    :key="index"
+                    class="flex flex-col"
+                >
                     <div class="flex items-center mb-4">
                         <input
                             type="text"
@@ -134,7 +214,11 @@
                         </button>
                         <div v-if="index > 0">
                             <button
-                                :class="index == product.specification.length - 1 ? 'ml-6' : 'ml-16'"
+                                :class="
+                                    index == product.specification.length - 1
+                                        ? 'ml-6'
+                                        : 'ml-16'
+                                "
                                 @click.prevent="removeElement(index)"
                                 class="mt-3 focus:outline-none"
                             >
@@ -161,7 +245,10 @@
             </div>
         </div>
         <div class="flex justify-center mb-20">
-            <button class="px-10 py-3 text-white bg-blue-500 rounded-lg shadow-lg" @click.prevent="addToDatabase">
+            <button
+                class="px-10 py-3 text-white bg-blue-500 rounded-lg shadow-lg"
+                @click.prevent="addToDatabase"
+            >
                 Add to databse
             </button>
         </div>
@@ -169,11 +256,67 @@
 </template>
 
 <script>
-import { db } from '../main';
+import { db, storage } from '../main';
+
 export default {
     data() {
         return {
-            product: {
+            productPicture: '',
+            picture: '',
+            loadingStatus: 'not loading',
+            width: 0,
+            product: this.freshProductObject(),
+        };
+    },
+    methods: {
+        previewimage() {
+            this.productPicture = event.target.files[0];
+            this.loadingStatus = 'loading';
+            let input = event.target;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = (e) => {
+                    this.picture = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+            setTimeout(() => {
+                this.loadingStatus = 'done';
+            }, 1500);
+        },
+        addRow() {
+            this.product.specification.push({
+                title: '',
+                description: '',
+            });
+        },
+        removeElement(index) {
+            this.product.specification.splice(index, 1);
+        },
+        async addToDatabase() {
+            try {
+                const insertedProduct = await db
+                    .collection('products')
+                    .add(this.product);
+                const imageProduct = await storage
+                    .ref(`${insertedProduct.id}`)
+                    .put(this.productPicture);
+                const imageURL = await storage
+                    .ref(`${insertedProduct.id}`)
+                    .getDownloadURL();
+                await db
+                    .collection('products')
+                    .doc(`${insertedProduct.id}`)
+                    .update({
+                        urlPhoto: `${imageURL}`,
+                    });
+                //this.product = this.freshProductObject();
+            } catch (error) {
+                console.log('Error adding document: ', error);
+            }
+        },
+        freshProductObject() {
+            return {
                 name: '',
                 manufacture: '',
                 price: 0,
@@ -185,46 +328,9 @@ export default {
                     },
                 ],
                 type: '',
+                urlPhoto: '',
                 urlDocumentation: '',
-                urlPoza: '',
-            },
-        };
-    },
-    methods: {
-        addRow() {
-            this.product.specification.push({
-                title: '',
-                description: '',
-            });
-        },
-        removeElement(index) {
-            this.product.specification.splice(index, 1);
-        },
-        async addToDatabase() {
-            await db
-                .collection('products')
-                .add(this.product)
-                .then((docRef) => {
-                    console.log('Document written with ID: ', docRef.id);
-                    this.product = {
-                        name: '',
-                        manufacture: '',
-                        price: 0,
-                        stock: 0,
-                        specification: [
-                            {
-                                title: '',
-                                description: '',
-                            },
-                        ],
-                        type: '',
-                        urlDocumentation: '',
-                        urlPoza: '',
-                    };
-                })
-                .catch(function(error) {
-                    console.error('Error adding document: ', error);
-                });
+            };
         },
     },
 };
