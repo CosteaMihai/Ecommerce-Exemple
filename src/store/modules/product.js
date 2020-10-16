@@ -27,6 +27,9 @@ export const mutations = {
     SET_PRODUCT(state, payload) {
         state.productByID = payload;
     },
+    DELETE_PRODUCT(state, payload) {
+        state.pagination.products.splice(payload, 1);
+    },
 };
 
 export const actions = {
@@ -65,6 +68,17 @@ export const actions = {
         console.log(product);
         commit('SET_PRODUCT', product);
     },
+    async deleteProduct({ commit, state, dispatch }, productID) {
+        await Product.deleteProductById(productID);
+        const indexToRemove = state.pagination.products
+            .map((product) => {
+                return product.id;
+            })
+            .indexOf(productID);
+        commit('DELETE_PRODUCT', indexToRemove);
+        if (state.pagination.page === 1) await dispatch('initialPage');
+    },
+    async modifyProduct({ commit, state }, productId) {},
 };
 
 export const getters = {

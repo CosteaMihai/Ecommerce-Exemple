@@ -1,4 +1,4 @@
-import { db } from '../main';
+import { db, storage } from '../main';
 
 const nextPageProducts = async (first, last, limit, page) => {
     try {
@@ -97,12 +97,24 @@ const getProductsFromDatabaseById = async (productID) => {
         console.log('Error getting document:', error);
     }
 };
+const deleteProductById = async (productID) => {
+    try {
+        await db
+            .collection('products')
+            .doc(`${productID}`)
+            .delete();
+        await storage.ref(`${productID}`).delete();
+    } catch (error) {
+        console.log('Error deleting documents:', error);
+    }
+};
 const Product = {
     nextPageProducts,
     initialPageProducts,
     previousPageProducts,
     products,
     getProductsFromDatabaseById,
+    deleteProductById,
 };
 
 export default Product;
