@@ -1,6 +1,8 @@
 <template>
     <div>
-        <Navbar />
+        <Navbar
+            v-if="routeName !== 'Admin' && routeName !== 'Admin Dashboard'"
+        />
         <router-view />
     </div>
 </template>
@@ -12,11 +14,10 @@ export default {
     components: {
         Navbar,
     },
-    methods: {
-        ...mapActions('product', ['initialPage']),
-    },
-    created() {
-        this.initialPage();
+    computed: {
+        routeName() {
+            return this.$route.name;
+        },
     },
 };
 </script>

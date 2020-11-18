@@ -1,0 +1,82 @@
+.form {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+.form-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem;
+}
+.error-message {
+    font-style: italic;
+    color: red;
+    font-size: 12px;
+    margin-top: -5px;
+}
+.form-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem auto 1rem auto;
+    background-color: #4299e1;
+    color: white;
+    width: 100px;
+    height: 45px;
+    border-radius: 0.2rem;
+    transition: 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -5px,
+        rgba(0, 0, 0, 0.04) 0px 5px 5px -5px;
+}
+.form-button:focus {
+    outline: 0;
+}
+.form-button span {
+    position: absolute;
+    animation: slide-text-initial 0.4s ease-in forwards;
+}
+.form-button svg {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    fill: currentColor;
+    visibility: hidden;
+}
+.form-button:hover {
+    background-color: #3182ce;
+}
+.form-button:hover span {
+    animation: slide-text 0.4s ease-in forwards;
+}
+.form-button:hover svg {
+    animation: appear-svg 0.4s 0.3s ease-in forwards;
+}
+@keyframes slide-text {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-15px);
+        opacity: 0;
+    }
+}
+@keyframes slide-text-initial {
+    from {
+        transform: translateX(-15px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes appear-svg {
+    from {
+        opacity: 0;
+        visibility: hidden;
+    }
+    to {
+        opacity: 1;
+        visibility: visible;
+    }
+}

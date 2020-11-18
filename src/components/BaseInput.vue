@@ -1,12 +1,22 @@
 <template>
-    <div>
+    <div class="form-div">
         <input
+            class="form-input"
             :id="label"
             :value="value"
-            placeholder="Ana Are mre"
             @input="updateValue"
             v-bind="$attrs"
+            v-on="listeners"
+            required
+            autocomplete="off"
         />
+        <label
+            class="form-label"
+            :for="label"
+            :style="error ? 'border-color:#F56565;' : ''"
+        >
+            <span class="content">{{ label }}</span>
+        </label>
     </div>
 </template>
 
@@ -20,6 +30,15 @@ export default {
             default: '',
         },
         value: [String, Number],
+        error: Boolean,
+    },
+    computed: {
+        listeners() {
+            return {
+                ...this.$listeners,
+                input: this.updateValue,
+            };
+        },
     },
     methods: {
         updateValue(product) {
@@ -29,23 +48,61 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-div {
-    margin: 0.5rem 1rem 0.5rem 1rem;
+<style scoped>
+.form-div {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+.form-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding-top: 20px;
+    padding-left: 5px;
+}
+.form-input:focus {
+    outline: 0;
+}
+.form-label {
+    position: absolute;
+    bottom: 0px;
+    left: 0%;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
     border-bottom-width: 1px;
     border-color: #4299e1;
-    transition: 0.5s;
-    padding: 0.5rem 0 0.5rem 0;
 }
-div:focus-within {
+.form-label::after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    bottom: -1px;
+    border-bottom-width: 2px;
     border-color: #2b6cb0;
-}
-input {
+    height: 100%;
     width: 100%;
-    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-    line-height: 1.25rem;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
 }
-input:focus {
-    outline: 0;
+.content {
+    color: gray;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    transition: all 0.3s ease;
+}
+.form-input:focus + .form-label .content,
+.form-input:valid + .form-label .content {
+    transform: translateY(-110%);
+    font-size: 14px;
+    color: #2b6cb0;
+}
+.form-input:focus + .form-label::after,
+.form-input:valid + .form-label::after {
+    transform: translateX(0%);
 }
 </style>

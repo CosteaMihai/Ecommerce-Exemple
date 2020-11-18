@@ -395,7 +395,8 @@ export default {
     data() {
         return {
             user: {
-                name: '',
+                lastName: '',
+                firstName: '',
                 email: '',
                 phone: '',
             },
@@ -415,7 +416,7 @@ export default {
                 ) {
                     db.collection('orders')
                         .add({
-                            userID: this.currentUser.id,
+                            user: this.currentUser,
                             products: this.cartProducts,
                             paymentMethod: this.paymentMethod,
                         })

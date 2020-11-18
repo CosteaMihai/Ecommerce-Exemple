@@ -1,0 +1,104 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: stretch;
+    grid-gap: 50px;
+    margin: 50px auto 50px auto;
+}
+.secitionPreviousNext {
+    margin: 30px 0px 30px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.page {
+    width: 85%;
+    margin: auto;
+}
+.no-products {
+    margin: auto;
+    padding-top: 2rem;
+    width: 50%;
+    text-align: center;
+}
+.no-products p {
+    margin: 12px;
+}
+.no-products p:first-child {
+    font-size: 20px;
+    color: #4299e1;
+}
+.previousNextButtons {
+    padding: 10px 20px 10px 20px;
+    background-color: transparent;
+    color: grey;
+    transition: 0.4s;
+}
+.previousNextButtons:focus {
+    outline: 0;
+}
+.previousNextButtons:hover {
+    color: rgb(185, 185, 185);
+}
+#nextButton:hover svg {
+    animation: move-arrow-right 0.5s ease-in infinite alternate;
+}
+#previousButton:hover svg {
+    animation: move-arrow-left 0.5s ease-in infinite alternate;
+}
+.previousNextButtons:disabled {
+    pointer-events: none;
+    opacity: 0.2;
+}
+#previousButton {
+    border-radius: 5px 0 0 5px;
+}
+#nextButton {
+    border-radius: 0 5px 5px 0;
+}
+.arrow {
+    width: 30px;
+    fill: currentColor;
+}
+.no-products-button {
+    background: #4299e1;
+    color: white;
+    width: 170px;
+    height: 50px;
+    border-radius: 5px;
+    position: relative;
+    transition: 0.5s;
+}
+.no-products-button::after {
+    content: '>';
+    position: absolute;
+    right: -10px;
+    font-size: 25px;
+    top: 5px;
+    opacity: 0;
+    transition: 0.5s;
+}
+.no-products-button:hover {
+    padding-right: 15px;
+}
+.no-products-button:hover::after {
+    right: 10px;
+    opacity: 1;
+}
+@keyframes move-arrow-right {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(10px);
+    }
+}
+@keyframes move-arrow-left {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-10px);
+    }
+}

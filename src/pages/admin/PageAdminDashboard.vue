@@ -20,27 +20,45 @@
                 </button>
             </div>
         </div>
-        <AdminAllProducts v-show="state === 0" />
-        <AdminAddProduct v-show="state === 1" />
+        <AdminProducts v-show="state === 0" @change-to-add="state = 1" />
+        <AdminProductAdd v-show="state === 1" />
         <AdminOrders v-show="state === 2" />
+        <AdminCategories v-show="state === 3" />
     </div>
 </template>
 
 <script>
-import AdminAddProduct from '@/components/AdminAddProduct';
-import AdminAllProducts from '@/components/AdminAllProducts';
+import AdminProductAdd from '@/components/AdminProductAdd';
+import AdminProducts from '@/components/AdminProducts';
 import AdminOrders from '@/components/AdminOrders';
+import AdminCategories from '@/components/AdminCategories';
+import NProgress from 'nprogress';
+import store from '../../store/index';
 export default {
     components: {
-        AdminAddProduct,
+        AdminProductAdd,
         AdminOrders,
-        AdminAllProducts,
+        AdminProducts,
+        AdminCategories,
     },
     data() {
         return {
             state: 0,
-            buttons: ['All products', 'Add new product', 'Orders'],
+            buttons: [
+                'All products',
+                'Add new product',
+                'Orders',
+                'Categories',
+            ],
         };
+    },
+
+    async created() {
+        NProgress.start();
+        await store.dispatch('categories/fetchCategories');
+        await store.dispatch('product/initialPage');
+        await store.dispatch('order/fetchOrders');
+        NProgress.done();
     },
 };
 </script>

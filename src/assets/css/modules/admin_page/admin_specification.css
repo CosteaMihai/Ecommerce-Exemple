@@ -1,0 +1,67 @@
+.specification-section {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    margin: 1rem 0 1rem 0;
+}
+.specification-button-add {
+    grid-column-start: 10;
+    grid-column-end: span 1;
+    color: #4299e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.specification-button-remove {
+    grid-column-start: 11;
+    grid-column-end: span 1;
+    color: #4299e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+svg {
+    height: 1.5rem;
+    width: 1.5rem;
+    fill: currentColor;
+}
+button:focus {
+    outline: 0;
+}
+.error-message {
+    text-align: start;
+    font-style: italic;
+    color: red;
+    font-size: 12px;
+    margin-top: -5px;
+}
+.row-enter-active {
+    animation: enter 0.5s forwards;
+}
+.row-leave-active {
+    animation: leave 0.5s forwards;
+}
+
+.row-enter,
+.row-leave-to {
+    opacity: 0;
+}
+@keyframes enter {
+    0% {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+@keyframes leave {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+}

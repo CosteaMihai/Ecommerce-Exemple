@@ -1,0 +1,160 @@
+.title {
+    margin-top: 5px;
+    font-weight: 500;
+    font-size: 15px;
+    height: 40px;
+    letter-spacing: 1px;
+}
+.price {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    font-weight: 400;
+    font-size: 30px;
+    height: 40px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+.stock {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+.between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 20px;
+}
+.text {
+    padding: 10px 20px;
+    flex-flow: column;
+    text-align: left;
+    color: black;
+}
+.photo {
+    object-fit: cover;
+    height: 12rem;
+    width: 100%;
+    margin: auto;
+    border-radius: 10px 10px 0px 0px;
+}
+.card {
+    flex-flow: column;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 0px 14px 10px;
+    border-radius: 5px;
+    transition: 0.4s;
+    color: black;
+}
+.card:hover {
+    box-shadow: 0 14px 20px 0 rgba(0, 0, 0, 0.2);
+}
+.button {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px grey;
+    opacity: 0.9;
+    transition: opacity 0.4s;
+}
+.button svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+    position: absolute;
+    visibility: hidden;
+}
+.button span {
+    position: absolute;
+}
+.button:not(:hover) span {
+    animation: slide-text-initial 0.35s ease-in forwards;
+}
+.button:focus {
+    outline: 0;
+}
+.button:hover {
+    opacity: 1;
+}
+.button:hover svg {
+    animation: slide-svg 0.35s ease-in 0.35s forwards;
+}
+.button:hover span {
+    animation: slide-text 0.35s ease-in forwards;
+}
+
+.animate-from-left {
+    -webkit-animation: slide-card-from-left 0.5s ease-in forwards;
+    animation: slide-card-from-left 0.2s ease-in forwards;
+}
+.animate-from-right {
+    animation: slide-card-from-right 0.2s ease-in forwards;
+}
+.animate-out {
+    opacity: 0;
+    -webkit-transition: opacity 0.5s ease-out forwards;
+    transition: opacity 0.5s ease-out;
+}
+
+@-webkit-keyframes slide-card-from-left {
+    from {
+        transform: translateX(-50px);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@keyframes slide-card-from-left {
+    from {
+        transform: translateX(-50px);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@keyframes slide-card-from-right {
+    from {
+        transform: translateX(50px);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@keyframes slide-text {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-15px);
+        opacity: 0;
+    }
+}
+@keyframes slide-text-initial {
+    from {
+        transform: translateX(-15px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes slide-svg {
+    from {
+        transform: translateX(15px);
+        opacity: 0;
+        visibility: hidden;
+    }
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+        visibility: visible;
+    }
+}

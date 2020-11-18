@@ -1,4 +1,5 @@
 import { db, storage } from '../main';
+import { cloneDeep } from 'lodash';
 
 const nextPageProducts = async (first, last, limit, page) => {
     try {
@@ -10,12 +11,13 @@ const nextPageProducts = async (first, last, limit, page) => {
             .startAfter(last)
             .limit(limit)
             .get();
-        console.log(snapshot);
-        snapshot.forEach((doc) => {
-            array.push({ id: doc.id, ...doc.data() });
-        });
+        for (const doc of snapshot.docs) {
+            let object = { ...doc.data() };
+            object.id = doc.id;
+            array.push(object);
+        }
         first = snapshot.docs[0];
-        last = snapshot.docs[limit - 1];
+        last = snapshot.docs[array.length - 1];
         return {
             first,
             last,
@@ -23,7 +25,34 @@ const nextPageProducts = async (first, last, limit, page) => {
             page,
         };
     } catch (error) {
-        console.log(error);
+        console.log('Error at the nextPageProducts: ', error);
+    }
+};
+const otherPageProducts = async (first, last, limit, page, previous) => {
+    try {
+        let array = [];
+        console.log(previous, page);
+        let snapshot = await db
+            .collection('products')
+            .orderBy('name')
+            .startAfter(previous[page - 2])
+            .limit(limit)
+            .get();
+        for (const doc of snapshot.docs) {
+            let object = { ...doc.data() };
+            object.id = doc.id;
+            array.push(object);
+        }
+        first = snapshot.docs[0];
+        last = snapshot.docs[array.length - 1] || '';
+        return {
+            first,
+            last,
+            array,
+            page,
+        };
+    } catch (error) {
+        console.log('Error at the otherPageProducts: ', error);
     }
 };
 const initialPageProducts = async (last, limit) => {
@@ -34,10 +63,12 @@ const initialPageProducts = async (last, limit) => {
             .orderBy('name')
             .limit(limit)
             .get();
-        snapshot.forEach((doc) => {
-            array.push({ id: doc.id, ...doc.data() });
-        });
-        last = snapshot.docs[limit - 1];
+        for (const doc of snapshot.docs) {
+            let object = { ...doc.data() };
+            object.id = doc.id;
+            array.push(object);
+        }
+        last = snapshot.docs[array.length - 1];
         return {
             first: '',
             last,
@@ -45,7 +76,7 @@ const initialPageProducts = async (last, limit) => {
             page: 1,
         };
     } catch (error) {
-        console.log(error);
+        console.log('Error at the initialPageProducts: ', error);
     }
 };
 const previousPageProducts = async (first, last, limit, page) => {
@@ -58,11 +89,12 @@ const previousPageProducts = async (first, last, limit, page) => {
             .endBefore(first)
             .limitToLast(limit)
             .get();
-        console.log(snapshot);
-        snapshot.forEach((doc) => {
-            array.push({ id: doc.id, ...doc.data() });
-        });
-        last = snapshot.docs[limit - 1];
+        for (const doc of snapshot.docs) {
+            let object = { ...doc.data() };
+            object.id = doc.id;
+            array.push(object);
+        }
+        last = snapshot.docs[array.length - 1];
         first = snapshot.docs[0];
         return {
             first,
@@ -71,7 +103,7 @@ const previousPageProducts = async (first, last, limit, page) => {
             page,
         };
     } catch (error) {
-        console.log(error);
+        console.log('Error at the previousPageProducts: ', error);
     }
 };
 const products = async () => {
@@ -108,6 +140,59 @@ const deleteProductById = async (productID) => {
         console.log('Error deleting documents:', error);
     }
 };
+const modifyProductWithoutImage = async (product) => {
+    try {
+        const initialProduct = cloneDeep(product);
+        const id = initialProduct.id;
+        delete initialProduct.id;
+        await db
+            .collection('products')
+            .doc(`${id}`)
+            .set(initialProduct);
+    } catch (error) {
+        console.log('Error updating document:', error);
+    }
+};
+const modifyProductWithImage = async (product, photo) => {
+    try {
+        const initialProduct = cloneDeep(product);
+        const id = initialProduct.id;
+        await storage.ref(`${id}`).delete();
+        await storage.ref(`${id}`).put(photo);
+        const imageURL = await storage.ref(`${id}`).getDownloadURL();
+        initialProduct.urlPhoto = imageURL;
+        delete initialProduct.id;
+        await db
+            .collection('products')
+            .doc(`${id}`)
+            .set(initialProduct);
+        return initialProduct;
+    } catch (error) {
+        console.log('Error adding document: ', error);
+    }
+};
+const addProductToDatabase = async (product, photo) => {
+    try {
+        const insertedProduct = await db.collection('products').add(product);
+        await storage.ref(`${insertedProduct.id}`).put(photo);
+        const imageURL = await storage
+            .ref(`${insertedProduct.id}`)
+            .getDownloadURL();
+        await db
+            .collection('products')
+            .doc(`${insertedProduct.id}`)
+            .update({
+                urlPhoto: `${imageURL}`,
+            });
+        product.id = insertedProduct.id;
+
+        product.urlPhoto = imageURL;
+
+        return product;
+    } catch (error) {
+        console.log('Error adding document: ', error);
+    }
+};
 const Product = {
     nextPageProducts,
     initialPageProducts,
@@ -115,6 +200,10 @@ const Product = {
     products,
     getProductsFromDatabaseById,
     deleteProductById,
+    modifyProductWithoutImage,
+    modifyProductWithImage,
+    addProductToDatabase,
+    otherPageProducts,
 };
 
 export default Product;

@@ -9,8 +9,10 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "firebase": "^7.21.0",
+    "gsap": "^3.5.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
+    "nprogress": "^0.2.0",
     "underscore": "^1.11.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

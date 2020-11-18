@@ -9,6 +9,7 @@ import Vuelidate from 'vuelidate';
 import VueTheMask from 'vue-the-mask';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
+import 'nprogress/nprogress.css';
 
 const requireComponent = require.context(
     './components',

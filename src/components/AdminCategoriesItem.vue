@@ -1,0 +1,79 @@
+<template>
+    <div class="category-item">
+        {{ category }}
+        <button
+            class="category-cancel-button"
+            @click.prevent="$emit('delete-item', category)"
+        >
+            <svg
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 512.001 512.001"
+                style="enable-background:new 0 0 512.001 512.001;"
+                xml:space="preserve"
+            >
+                <g>
+                    <g>
+                        <path
+                            d="M294.111,256.001L504.109,46.003c10.523-10.524,10.523-27.586,0-38.109c-10.524-10.524-27.587-10.524-38.11,0L256,217.892
+			L46.002,7.894c-10.524-10.524-27.586-10.524-38.109,0s-10.524,27.586,0,38.109l209.998,209.998L7.893,465.999
+			c-10.524,10.524-10.524,27.586,0,38.109c10.524,10.524,27.586,10.523,38.109,0L256,294.11l209.997,209.998
+			c10.524,10.524,27.587,10.523,38.11,0c10.523-10.524,10.523-27.586,0-38.109L294.111,256.001z"
+                        />
+                    </g>
+                </g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+            </svg>
+        </button>
+    </div>
+</template>
+
+<script>
+export default {
+    props: {
+        category: {
+            type: String,
+            required: true,
+        },
+    },
+};
+</script>
+
+<style scoped>
+.category-cancel-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 0px 7px;
+    transition: transform 0.5s ease;
+}
+.category-cancel-button:focus {
+    outline: none;
+}
+.category-cancel-button:hover {
+    transform: rotate(180deg);
+}
+.category-cancel-button svg {
+    width: 15px;
+    height: 15px;
+}
+</style>
