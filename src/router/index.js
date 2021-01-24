@@ -67,6 +67,10 @@ router.beforeEach((to, from, next) => {
         next({ name: 'Home' });
         return;
     }
+    if (to.name === 'LogIn' && isUserAuthenticated) {
+        next({ name: 'Home' });
+        return;
+    }
     if (to.name === 'Admin Dashboard' && !isAdminAuthenticated) {
         next({ name: 'Admin' });
         return;

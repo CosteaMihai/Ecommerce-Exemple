@@ -13,7 +13,7 @@ export const state = {
         last: '',
         products: [],
         page: 1,
-        limit: 12,
+        limit: 4,
         orderBy: ['name', 'asc'],
         category: null,
     },
@@ -117,7 +117,7 @@ export const actions = {
         Nprogress.done();
     },
 
-    async nextPage({ state, commit }) {
+    async nextPage({ state, commit },) {
         Nprogress.start();
         commit('ADD_PREVIOUS_LAST_DOCUMENT', state.pagination.last);
         state.pagination.products = [];
@@ -130,6 +130,7 @@ export const actions = {
             state.pagination.category,
             state.pagination.priceRange
         );
+        console.log(nextProducts)
         commit('SET_PAGINATION', nextProducts);
         Nprogress.done();
     },

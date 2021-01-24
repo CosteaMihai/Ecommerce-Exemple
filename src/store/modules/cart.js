@@ -9,6 +9,7 @@ export const mutations = {
             return;
         } else {
             for (let product of state.cart) {
+                console.log(state.cart,payload)
                 if (
                     JSON.stringify(product.product.id) ===
                     JSON.stringify(payload.product.id)
@@ -50,14 +51,8 @@ export const actions = {
     },
 };
 export const getters = {
-    cartProducts: (state) => {
-        return state.cart;
-    },
-
-    cartLength: (state) => {
-        return state.cart.length;
-    },
-
+    cartProducts: (state) => state.cart,
+    cartLength: (state) => state.cart.length,
     totalCart: (state) => {
         return state.cart.length
             ? state.cart.reduce(

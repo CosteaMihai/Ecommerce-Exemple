@@ -23,7 +23,7 @@ export const actions = {
     async signInAdmin({ commit }, payload) {
         try {
             commit('CLEAR_ERROR');
-            const user = await firebase
+            await firebase
                 .auth()
                 .signInWithEmailAndPassword(payload.email, payload.password);
             commit('SET_AUTHENTICATED', true);

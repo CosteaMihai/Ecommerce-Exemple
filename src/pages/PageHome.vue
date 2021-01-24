@@ -158,7 +158,7 @@
 
 <script>
 import ProductCard from './../components/ProductCard';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, createLogger } from 'vuex';
 
 export default {
     components: {
@@ -166,7 +166,6 @@ export default {
     },
     data() {
         return {
-            product: {},
             nextOrPrevious: '',
             orderBy: 'name-asc',
             selectedCategory: null,

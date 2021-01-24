@@ -13,12 +13,14 @@
             <div v-if="error" class="error-admin-message">
                 Wrong Password!
             </div>
+            <div v-if="errorEmail" class="error-admin-message">
+                Wrong Email!
+            </div>
         </form>
     </div>
 </template>
 
 <script>
-import { db } from '@/main';
 import { mapActions, mapGetters } from 'vuex';
 import Cookies from 'js-cookie';
 export default {
@@ -27,11 +29,17 @@ export default {
             adminEmail: 'admin@ecommerce.com',
             adminPassword: '',
             loginDone: false,
-            //adminecommerce
+            errorEmail: false,
+            //password: adminecommerce
         };
     },
     methods: {
         async verifyAdmin() {
+            this.errorEmail=false
+            if(this.adminEmail !== 'admin@ecommerce.com') {
+                this.errorEmail=true
+                return
+            }
             await this.signInAdmin({
                 email: this.adminEmail,
                 password: this.adminPassword,
