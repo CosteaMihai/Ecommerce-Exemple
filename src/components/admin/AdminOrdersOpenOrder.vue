@@ -6,15 +6,37 @@
                 Order Number:
                 <span style="font-weight:600">{{ order.id }}</span>
             </div>
-            <button
+            <div
+                class="order-status-div"
                 :style="
-                    order.order.complete
+                    order.order.status == 1
                         ? 'background:limegreen;'
-                        : 'background: #4299e1;'
+                        : order.order.status == 0
+                        ? 'background: #4299e1;'
+                        : 'background:#fd4c4c;'
                 "
             >
-                {{ order.order.complete ? 'Done' : 'Pending' }}
-            </button>
+                <select
+                    class="order-status-select"
+                    v-model="order.order.status"
+                    @change.prevent="
+                        changeStatus({
+                            id: order.id,
+                            status: order.order.status,
+                        })
+                    "
+                >
+                    <option
+                        v-for="option in options"
+                        :key="option.value"
+                        :value="option.value"
+                        style="background:white; color:black"
+                    >
+                        {{ option.title }}
+                    </option>
+                </select>
+                <span class="order-status-arraow">></span>
+            </div>
         </div>
         <div class="order-section">
             <div>
@@ -83,19 +105,49 @@
             <div>
                 {{ order.order.user.phone }}
             </div>
-            <button class="order-delete-button">Delete</button>
+            <button
+                class="order-delete-button"
+                @click.prevent="
+                    $emit('close-order');
+                    deleteOrder(order.id);
+                "
+            >
+                Delete
+            </button>
         </div>
     </div>
 </template>
 
 <script>
 import { formatDate } from '@/helpers/order.js';
+import { mapActions } from 'vuex';
 export default {
     props: {
         order: {
             type: Object,
             required: true,
         },
+    },
+    data() {
+        return {
+            options: [
+                {
+                    title: 'Pending',
+                    value: 0,
+                },
+                {
+                    title: 'Done',
+                    value: 1,
+                },
+                {
+                    title: 'Canceled',
+                    value: 2,
+                },
+            ],
+        };
+    },
+    methods: {
+        ...mapActions('order', ['fetchOrders', 'changeStatus', 'deleteOrder']),
     },
     computed: {
         date() {
@@ -113,82 +165,5 @@ export default {
 </script>
 
 <style>
-.admin-order {
-    width: 80%;
-    margin: 50px auto;
-}
-.order-section {
-    margin-top: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.back-button {
-    background: #4299e1;
-    color: white;
-    width: 65px;
-    height: 27px;
-    border-radius: 3px;
-    transition: background 0.5s;
-}
-.back-button::before {
-    content: '<';
-    font-size: 18px;
-}
-.back-button:focus {
-    outline: 0;
-}
-.back-button:hover {
-    background: #2b6cb0;
-}
-.order-section button {
-    color: white;
-    padding: 2px 10px;
-    border-radius: 5px;
-}
-.order-section button:focus {
-    outline: 0;
-}
-.order-products {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 50px 0px 20px 0px;
-
-    border-bottom: 1px solid #4299e1;
-}
-.order-products div:first-child {
-    display: flex;
-}
-
-.order-products img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-}
-.order-product-total {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.order-owner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-.order-owner div {
-    text-align: center;
-    margin-top: 10px;
-}
-.order-delete-button {
-    background: #fd4c4c;
-    color: white;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    border-radius: 5px;
-    padding: 5px 30px;
-}
+@import './../../assets/css/modules/admin_page/admin_order_item.css';
 </style>

@@ -1,13 +1,32 @@
-import { db, storage } from '../main';
+import { storage, productsCollection } from '../main';
 import { cloneDeep } from 'lodash';
 
-const nextPageProducts = async (first, last, limit, page) => {
+const categorySearchRef = (category) => {
+    let categorySearchRef;
+    if (category) {
+        categorySearchRef = productsCollection
+            .where('category', '>=', category)
+            .where('category', '<=', category)
+            .orderBy('category', 'asc');
+    } else {
+        categorySearchRef = productsCollection;
+    }
+    return categorySearchRef;
+};
+
+const nextPageProducts = async (
+    first,
+    last,
+    limit,
+    page,
+    orderBy,
+    category
+) => {
     try {
         page++;
         let array = [];
-        let snapshot = await db
-            .collection('products')
-            .orderBy('name')
+        let snapshot = await categorySearchRef(category)
+            .orderBy(orderBy[0], orderBy[1])
             .startAfter(last)
             .limit(limit)
             .get();
@@ -28,13 +47,19 @@ const nextPageProducts = async (first, last, limit, page) => {
         console.log('Error at the nextPageProducts: ', error);
     }
 };
-const otherPageProducts = async (first, last, limit, page, previous) => {
+const otherPageProducts = async (
+    first,
+    last,
+    limit,
+    page,
+    previous,
+    orderBy,
+    category
+) => {
     try {
         let array = [];
-        console.log(previous, page);
-        let snapshot = await db
-            .collection('products')
-            .orderBy('name')
+        let snapshot = await categorySearchRef(category)
+            .orderBy(orderBy[0], orderBy[1])
             .startAfter(previous[page - 2])
             .limit(limit)
             .get();
@@ -55,12 +80,11 @@ const otherPageProducts = async (first, last, limit, page, previous) => {
         console.log('Error at the otherPageProducts: ', error);
     }
 };
-const initialPageProducts = async (last, limit) => {
+const initialPageProducts = async (last, limit, orderBy, category) => {
     try {
         let array = [];
-        let snapshot = await db
-            .collection('products')
-            .orderBy('name')
+        let snapshot = await categorySearchRef(category)
+            .orderBy(orderBy[0], orderBy[1])
             .limit(limit)
             .get();
         for (const doc of snapshot.docs) {
@@ -79,13 +103,19 @@ const initialPageProducts = async (last, limit) => {
         console.log('Error at the initialPageProducts: ', error);
     }
 };
-const previousPageProducts = async (first, last, limit, page) => {
+const previousPageProducts = async (
+    first,
+    last,
+    limit,
+    page,
+    orderBy,
+    category
+) => {
     try {
         page--;
         let array = [];
-        let snapshot = await db
-            .collection('products')
-            .orderBy('name')
+        let snapshot = await categorySearchRef(category)
+            .orderBy(orderBy[0], orderBy[1])
             .endBefore(first)
             .limitToLast(limit)
             .get();
@@ -106,9 +136,9 @@ const previousPageProducts = async (first, last, limit, page) => {
         console.log('Error at the previousPageProducts: ', error);
     }
 };
-const products = async () => {
+const products = async (category) => {
     try {
-        let snapshot = await db.collection('products').get();
+        let snapshot = await categorySearchRef(category).get();
         return snapshot.docs.length;
     } catch (error) {
         console.log(error);
@@ -116,10 +146,7 @@ const products = async () => {
 };
 const getProductsFromDatabaseById = async (productID) => {
     try {
-        const snapshot = await db
-            .collection('products')
-            .doc(productID)
-            .get();
+        const snapshot = await productsCollection.doc(productID).get();
         if (snapshot.exists) {
             return { id: productID, ...snapshot.data() };
         } else {
@@ -131,10 +158,7 @@ const getProductsFromDatabaseById = async (productID) => {
 };
 const deleteProductById = async (productID) => {
     try {
-        await db
-            .collection('products')
-            .doc(`${productID}`)
-            .delete();
+        await productsCollection.doc(`${productID}`).delete();
         await storage.ref(`${productID}`).delete();
     } catch (error) {
         console.log('Error deleting documents:', error);
@@ -142,19 +166,20 @@ const deleteProductById = async (productID) => {
 };
 const modifyProductWithoutImage = async (product) => {
     try {
+        product.price = parseInt(product.price);
+        product.stock = parseInt(product.stock);
         const initialProduct = cloneDeep(product);
         const id = initialProduct.id;
         delete initialProduct.id;
-        await db
-            .collection('products')
-            .doc(`${id}`)
-            .set(initialProduct);
+        await productsCollection.doc(`${id}`).set(initialProduct);
     } catch (error) {
         console.log('Error updating document:', error);
     }
 };
 const modifyProductWithImage = async (product, photo) => {
     try {
+        product.price = parseInt(product.price);
+        product.stock = parseInt(product.stock);
         const initialProduct = cloneDeep(product);
         const id = initialProduct.id;
         await storage.ref(`${id}`).delete();
@@ -162,10 +187,7 @@ const modifyProductWithImage = async (product, photo) => {
         const imageURL = await storage.ref(`${id}`).getDownloadURL();
         initialProduct.urlPhoto = imageURL;
         delete initialProduct.id;
-        await db
-            .collection('products')
-            .doc(`${id}`)
-            .set(initialProduct);
+        await productsCollection.doc(`${id}`).set(initialProduct);
         return initialProduct;
     } catch (error) {
         console.log('Error adding document: ', error);
@@ -173,17 +195,16 @@ const modifyProductWithImage = async (product, photo) => {
 };
 const addProductToDatabase = async (product, photo) => {
     try {
-        const insertedProduct = await db.collection('products').add(product);
+        product.price = parseInt(product.price);
+        product.stock = parseInt(product.stock);
+        const insertedProduct = await productsCollection.add(product);
         await storage.ref(`${insertedProduct.id}`).put(photo);
         const imageURL = await storage
             .ref(`${insertedProduct.id}`)
             .getDownloadURL();
-        await db
-            .collection('products')
-            .doc(`${insertedProduct.id}`)
-            .update({
-                urlPhoto: `${imageURL}`,
-            });
+        await productsCollection.doc(`${insertedProduct.id}`).update({
+            urlPhoto: `${imageURL}`,
+        });
         product.id = insertedProduct.id;
 
         product.urlPhoto = imageURL;

@@ -8,9 +8,8 @@ import PageAccount from '@/pages/account/PageAccount';
 import PageOrder from '@/pages/account/PageOrder';
 import PageAdmin from '@/pages/admin/PageAdmin';
 import PageAdminDashboard from '@/pages/admin/PageAdminDashboard';
-import store from '../store';
-import { isEmpty } from 'underscore';
-import Cookies from 'js-cookie';
+import PageNotFound from '@/pages/PageNotFound';
+import store from '@/store';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -49,23 +48,30 @@ const router = new VueRouter({
             component: PageAdmin,
         },
         {
-            path: '/admin/dashboard',
+            path: '/dashboard',
             name: 'Admin Dashboard',
             component: PageAdminDashboard,
         },
+        { path: '*', name: 'Not Found', component: PageNotFound },
     ],
     mode: 'history',
 });
 
 router.beforeEach((to, from, next) => {
-    if (Cookies.get('licenta-user') && isEmpty(store.state.currentUser)) {
-        store.commit('setCurrentUser', JSON.parse(Cookies.get('licenta-user')));
-    }
+    let isAdminAuthenticated = store.getters['admin/isAdminAuthenticated'];
+    let isUserAuthenticated = store.getters['user/isCurrentUser'];
     if (
-        (to.name === 'LogIn' && !isEmpty(store.state.currentUser)) ||
-        (to.name === 'Account' && isEmpty(store.state.currentUser))
+        (to.name === 'Account' || to.name === 'Order') &&
+        !isUserAuthenticated
     ) {
         next({ name: 'Home' });
+        return;
+    }
+    if (to.name === 'Admin Dashboard' && !isAdminAuthenticated) {
+        next({ name: 'Admin' });
+        return;
+    } else if (to.name === 'Admin' && isAdminAuthenticated) {
+        next({ name: 'Admin Dashboard' });
         return;
     }
     next();

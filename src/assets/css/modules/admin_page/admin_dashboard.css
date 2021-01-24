@@ -1,0 +1,25 @@
+.admin-navbar {
+    display: flex;
+    padding: 0 8rem;
+    margin-top: 2.5rem;
+    border-bottom-width: 1px;
+}
+.admin-navbar-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    background: white;
+    color: #4299e1;
+    transition: color 0.3s;
+}
+.admin-navbar-button:focus {
+    outline: 0;
+}
+.admin-navbar-button-selected {
+    border-width: 1px 1px 0 1px;
+    border-radius: 0.25rem 0.25rem 0 0;
+    color: #2b6cb0;
+}
+.admin-navbar-button:hover {
+    color: #2b6cb0;
+}

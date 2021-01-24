@@ -385,8 +385,7 @@ import CheckoutProduct from '../components/CheckoutProduct';
 import { mask } from 'vue-the-mask';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { db } from '../main';
-import { mapGetters } from 'vuex';
-import store from '../store/index';
+import { mapActions, mapGetters } from 'vuex';
 export default {
     directives: { mask },
     components: {
@@ -416,6 +415,9 @@ export default {
                 ) {
                     db.collection('orders')
                         .add({
+                            date: new Date(),
+                            status: 0,
+                            userID: this.currentUser.id,
                             user: this.currentUser,
                             products: this.cartProducts,
                             paymentMethod: this.paymentMethod,
@@ -427,7 +429,7 @@ export default {
                     if (this.error) return;
 
                     this.$router.push({ path: '/' });
-                    store.state.cart = [];
+                    this.clearCart();
                 } else {
                     this.$v.user.$touch();
                     if (!this.$v.user.$invalid) {
@@ -444,18 +446,17 @@ export default {
                         if (this.error) return;
 
                         this.$router.push({ path: '/' });
-                        store.state.cart = [];
+                        this.clearCart();
                     }
                 }
             } else {
                 this.paymentMethodError = true;
             }
         },
+        ...mapActions('cart', ['clearCart']),
     },
     computed: {
-        currentUser() {
-            return store.state.currentUser;
-        },
+        ...mapGetters('user', ['currentUser']),
         ...mapGetters('cart', ['totalCart', 'cartProducts']),
     },
     validations: {
@@ -464,7 +465,6 @@ export default {
                 required,
                 email,
             },
-
             name: {
                 required,
             },

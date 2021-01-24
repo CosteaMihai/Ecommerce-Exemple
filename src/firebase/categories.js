@@ -1,19 +1,31 @@
 import { db } from '../main';
 
 const extractCategoriesFromDatabase = async () => {
-    return await db.collection('categories').get();
+    try {
+        return await db.collection('categories').get();
+    } catch (error) {
+        console.log('Error while extracting categories:', error);
+    }
 };
 const addCategoryToDatabase = async (category) => {
-    await db
-        .collection('categories')
-        .doc(`${category}`)
-        .set({});
+    try {
+        await db
+            .collection('categories')
+            .doc(`${category}`)
+            .set({});
+    } catch (error) {
+        console.log('Error while adding a category:', error);
+    }
 };
 const deleteCategoryFromDatabase = async (category) => {
-    await db
-        .collection('categories')
-        .doc(`${category}`)
-        .delete();
+    try {
+        await db
+            .collection('categories')
+            .doc(`${category}`)
+            .delete();
+    } catch (error) {
+        console.log('Error while deleting a category', error);
+    }
 };
 const Category = {
     extractCategoriesFromDatabase,

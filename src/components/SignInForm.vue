@@ -96,8 +96,8 @@ export default {
     data() {
         return {
             user: {
-                email: 'mihai.costin1010@gmail.com',
-                password: '121212',
+                email: 'ana@ana.ro',
+                password: '123456',
             },
         };
     },

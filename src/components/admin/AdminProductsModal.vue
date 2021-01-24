@@ -53,5 +53,5 @@ export default {
 };
 </script>
 <style scoped>
-@import '../assets/css/modules/admin_page/admin_modal.css';
+@import './../../assets/css/modules/admin_page/admin_modal.css';
 </style>

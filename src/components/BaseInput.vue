@@ -2,8 +2,9 @@
     <div class="form-div">
         <input
             class="form-input"
-            :id="label"
+            :id="id"
             :value="value"
+            :type="type"
             @input="updateValue"
             v-bind="$attrs"
             v-on="listeners"
@@ -24,6 +25,9 @@
 export default {
     inheritAttrs: false,
     props: {
+        id: {
+            type: String,
+        },
         label: {
             type: String,
             required: true,
@@ -31,6 +35,11 @@ export default {
         },
         value: [String, Number],
         error: Boolean,
+        type: {
+            type: String,
+            required: false,
+            default: 'text',
+        },
     },
     computed: {
         listeners() {

@@ -58,22 +58,5 @@ export default {
 </script>
 
 <style scoped>
-.category-cancel-button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    padding: 0px 7px;
-    transition: transform 0.5s ease;
-}
-.category-cancel-button:focus {
-    outline: none;
-}
-.category-cancel-button:hover {
-    transform: rotate(180deg);
-}
-.category-cancel-button svg {
-    width: 15px;
-    height: 15px;
-}
+@import './../../assets/css/modules/admin_page/admin_categories_item.css';
 </style>

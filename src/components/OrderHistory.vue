@@ -31,6 +31,16 @@
                     </button>
                 </router-link>
                 <div class="font-thin">
+                    <div>
+                        Status:
+                        {{
+                            order.status == 0
+                                ? 'Pending'
+                                : order.status == 1
+                                ? 'Done'
+                                : 'Canceled'
+                        }}
+                    </div>
                     <div class="">Total: ${{ totalOrder(order) }}</div>
                     <div>
                         Pyment Method :

@@ -1,0 +1,68 @@
+.orders-section {
+    width: 90%;
+    margin: 40px auto;
+}
+.order-table {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.order-table div {
+    color: #4299e1;
+    text-align: center;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-top: 10px;
+}
+.order-status {
+    color: white;
+    padding: 2px 10px;
+    border-radius: 5px;
+}
+.order-table div button:focus {
+    outline: 0;
+}
+.order-table div:first-child button {
+    color: #4299e1;
+    border-radius: 0px;
+    border-bottom: 1px solid transparent;
+    transition: border 0.3s, color 0.3s;
+}
+.order-table div:first-child button:hover {
+    border-bottom-color: #2b6cb0;
+    color: #2b6cb0;
+}
+.order-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+.order-filter {
+    width: 33%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.clear-button {
+    font-weight: 100;
+    position: absolute;
+    right: 5px;
+    top: 60%;
+    color: #4299e1;
+    transition: color 0.5s;
+}
+.clear-button:hover {
+    color: #2b6cb0;
+}
+.clear-button svg {
+    width: 12px;
+    height: 17px;
+    transition: transform 0.5s;
+}
+.clear-button svg:hover {
+    transform: rotate(180deg);
+}
+.clear-button:focus {
+    outline: none;
+}

@@ -46,10 +46,25 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-export const db = firebase.firestore();
-export const storage = firebase.storage();
+
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+const usersCollection = db.collection('users');
+const productsCollection = db.collection('products');
+const ordersCollection = db.collection('orders');
+const categoriesCollection = db.collection('categories');
 
 Vue.config.productionTip = false;
+
+export {
+    db,
+    storage,
+    usersCollection,
+    productsCollection,
+    ordersCollection,
+    categoriesCollection,
+};
 
 new Vue({
     router,

@@ -1,5 +1,7 @@
 <template>
-    <div class="relative flex flex-col items-center h-full text-white bg-blue-500 rounded-lg shadow-lg">
+    <div
+        class="relative flex flex-col items-center h-full text-white bg-blue-500 rounded-lg shadow-lg"
+    >
         <div class="pt-5 text-white">
             <svg
                 class="w-24 h-24 fill-current"
@@ -50,8 +52,8 @@
                     type="text"
                     :disabled="!modify"
                     placeholder="First Name"
-                    v-model.lazy="getCurrentUser.firstName"
-                    @blur="$v.getCurrentUser.firstName.$touch()"
+                    v-model.lazy="currentUser.firstName"
+                    @blur="$v.currentUser.firstName.$touch()"
                 />
             </div>
             <div class="flex flex-col justify-center w-1/2">
@@ -62,27 +64,42 @@
                     type="text"
                     :disabled="!modify"
                     placeholder="Last Name"
-                    v-model.lazy="getCurrentUser.lastName"
-                    @blur="$v.getCurrentUser.lastName.$touch()"
+                    v-model.lazy="currentUser.lastName"
+                    @blur="$v.currentUser.lastName.$touch()"
                 />
             </div>
             <div class="flex w-full mx-16">
-                <div v-if="$v.getCurrentUser.firstName.$error" class="w-1/2 mr-3">
-                    <p v-if="!$v.getCurrentUser.firstName.required" class="text-xs italic text-red-300">
+                <div v-if="$v.currentUser.firstName.$error" class="w-1/2 mr-3">
+                    <p
+                        v-if="!$v.currentUser.firstName.required"
+                        class="text-xs italic text-red-300"
+                    >
                         Introduce your first name!
                     </p>
 
-                    <p v-else-if="!$v.getCurrentUser.firstName.minLength" class="text-xs italic text-red-300">
+                    <p
+                        v-else-if="!$v.currentUser.firstName.minLength"
+                        class="text-xs italic text-red-300"
+                    >
                         First name must be at least 3 characters!
                     </p>
                 </div>
-                <div v-else-if="!$v.getCurrentUser.firstName.$error" class="w-1/2 h-1 mr-3"></div>
-                <div v-if="$v.getCurrentUser.lastName.$error" class="px-2 mx-12">
-                    <p v-if="!$v.getCurrentUser.lastName.required" class="text-xs italic text-red-300">
+                <div
+                    v-else-if="!$v.currentUser.firstName.$error"
+                    class="w-1/2 h-1 mr-3"
+                ></div>
+                <div v-if="$v.currentUser.lastName.$error" class="px-2 mx-12">
+                    <p
+                        v-if="!$v.currentUser.lastName.required"
+                        class="text-xs italic text-red-300"
+                    >
                         Introduce your last name!
                     </p>
 
-                    <p v-else-if="!$v.getCurrentUser.lastName.minLength" class="text-xs italic text-red-300">
+                    <p
+                        v-else-if="!$v.currentUser.lastName.minLength"
+                        class="text-xs italic text-red-300"
+                    >
                         Last name must be at least 3 characters!
                     </p>
                 </div>
@@ -96,7 +113,7 @@
                     class="py-1 mx-16 text-center text-black bg-blue-100 border-2 rounded-lg cursor-not-allowed focus:outline-none"
                     type="text"
                     disabled
-                    v-model="getCurrentUser.email"
+                    v-model="currentUser.email"
                 />
             </div>
             <div class="flex flex-col justify-center w-1/2">
@@ -108,36 +125,51 @@
                     :disabled="!modify"
                     placeholder="Phone Number"
                     v-mask="'+40 (###) ### ###'"
-                    v-model.lazy="getCurrentUser.phone"
-                    @blur="$v.getCurrentUser.phone.$touch()"
+                    v-model.lazy="currentUser.phone"
+                    @blur="$v.currentUser.phone.$touch()"
                 />
             </div>
             <div class="flex w-full mx-16">
                 <div class="w-1/2 h-1 mr-3"></div>
-                <div v-if="$v.getCurrentUser.phone.$error" class="px-2 mx-12">
-                    <p v-if="!$v.getCurrentUser.phone.required" class="text-xs italic text-red-300">
+                <div v-if="$v.currentUser.phone.$error" class="px-2 mx-12">
+                    <p
+                        v-if="!$v.currentUser.phone.required"
+                        class="text-xs italic text-red-300"
+                    >
                         Introduce a phone number!
                     </p>
 
-                    <p v-else-if="!$v.getCurrentUser.phone.minLength" class="text-xs italic text-red-300">
+                    <p
+                        v-else-if="!$v.currentUser.phone.minLength"
+                        class="text-xs italic text-red-300"
+                    >
                         Insufficient digits in the phone number!
                     </p>
                 </div>
-                <p class="px-2 mx-12 text-xs italic text-red-300" v-else-if="assignPhone">Phone already registerd</p>
+                <p
+                    class="px-2 mx-12 text-xs italic text-red-300"
+                    v-else-if="assignPhone"
+                >
+                    Phone already registerd
+                </p>
             </div>
         </div>
         <div class="absolute bottom-0 mb-10">
             <button
                 v-if="!modify"
                 @click.prevent="
-                    userInitialPhone = getCurrentUser.phone;
+                    userInitialPhone = currentUser.phone;
                     modify = true;
                 "
                 class="px-10 py-2 bg-blue-800 rounded-lg focus:outline-none"
             >
                 Modify
             </button>
-            <button v-else @click.prevent="save()" class="px-10 py-2 bg-blue-800 rounded-lg focus:outline-none">
+            <button
+                v-else
+                @click.prevent="save()"
+                class="px-10 py-2 bg-blue-800 rounded-lg focus:outline-none"
+            >
                 Save
             </button>
         </div>
@@ -147,6 +179,7 @@
 <script>
 import { mask } from 'vue-the-mask';
 import { required, minLength } from 'vuelidate/lib/validators';
+import { mapGetters } from 'vuex';
 import { db } from '../main';
 import store from '../store/index';
 export default {
@@ -163,12 +196,12 @@ export default {
     methods: {
         async save() {
             this.assignPhone = false;
-            this.$v.getCurrentUser.$touch();
-            if (this.$v.getCurrentUser.$invalid) return;
+            this.$v.currentUser.$touch();
+            if (this.$v.currentUser.$invalid) return;
 
             await db
                 .collection('users')
-                .where('phone', '==', this.getCurrentUser.phone)
+                .where('phone', '==', this.currentUser.phone)
                 .get()
                 .then((snapshot) => {
                     if (!snapshot.empty) {
@@ -180,20 +213,26 @@ export default {
                 .catch((err) => {
                     console.log('Error getting documents', err);
                 });
-            if (this.assignPhone && this.getCurrentUser.phone != this.userInitialPhone) {
+            if (
+                this.assignPhone &&
+                this.currentUser.phone != this.userInitialPhone
+            ) {
                 return;
-            } else if (this.assignPhone && this.getCurrentUser.phone == this.userInitialPhone) {
+            } else if (
+                this.assignPhone &&
+                this.currentUser.phone == this.userInitialPhone
+            ) {
                 this.assignPhone = false;
             }
             await db
                 .collection('users')
-                .where('id', '==', this.getCurrentUser.id)
+                .where('id', '==', this.currentUser.id)
                 .get()
                 .then((snapshot) => {
                     snapshot.forEach((doc) => {
                         db.collection('users')
                             .doc(doc.id)
-                            .set(this.getCurrentUser);
+                            .set(this.currentUser);
                     });
                 })
                 .catch((err) => {
@@ -204,12 +243,10 @@ export default {
         },
     },
     computed: {
-        getCurrentUser() {
-            return store.state.currentUser;
-        },
+        ...mapGetters('user', ['currentUser']),
     },
     validations: {
-        getCurrentUser: {
+        currentUser: {
             firstName: {
                 required,
                 minLength: minLength(3),

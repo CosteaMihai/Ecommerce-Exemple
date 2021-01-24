@@ -275,30 +275,29 @@ export default {
                 return false;
             return true;
         },
+        resetData() {
+            this.product = cloneDeep(this.freshProductObject());
+            this.$v.product.$reset();
+            this.$refs.specifications.reset();
+            this.$refs.upload.freshImage();
+        },
         async update() {
             if (!this.validate()) {
                 document.getElementById('action-button').blur();
                 return;
             }
+            console.log(typeof this.product.price);
             await this.$emit('modify-product', {
                 product: this.product,
                 photo: this.newPhoto,
             });
         },
         async add() {
-            if (!this.validate()) {
-                document.getElementById('action-button').blur();
-                return;
-            }
+            if (!this.validate()) return;
             await this.$emit('add-product', {
                 product: this.product,
                 photo: this.newPhoto,
             });
-            this.product = cloneDeep(this.freshProductObject());
-            this.$v.product.$reset();
-            this.$refs.specifications.reset();
-            this.$refs.upload.freshImage();
-            document.getElementById('action-button').blur();
         },
         freshProductObject() {
             return {
@@ -339,5 +338,5 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/modules/admin_page/admin_form.css';
+@import './../../assets/css/modules/admin_page/admin_form.css';
 </style>

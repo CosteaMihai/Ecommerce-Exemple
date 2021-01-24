@@ -9,10 +9,14 @@
             :style="error ? 'border-color:#F56565;' : ''"
             required
         >
-            <option disabled :value="null">
+            <option disabled :value="null" selected>
                 Select a category
             </option>
-            <option v-for="(option, index) in options" :key="index">
+            <option
+                v-for="(option, index) in options"
+                :key="index"
+                :value="option"
+            >
                 {{ option }}
             </option>
         </select>
@@ -76,8 +80,8 @@ select {
     width: 100%;
     padding-top: 23px;
     padding-left: 5px;
-    border-bottom-width: 0.1rem;
-    border-color: #2b6cb0;
+    border-bottom-width: 0.05rem;
+    border-color: #4299e1;
     transition: 0.3s;
     appearance: none;
 }
@@ -92,6 +96,7 @@ label {
     color: #2b6cb0;
 }
 select:valid {
-    border-bottom-width: 0.15rem;
+    border-bottom-width: 0.1rem;
+    border-color: #2b6cb0;
 }
 </style>

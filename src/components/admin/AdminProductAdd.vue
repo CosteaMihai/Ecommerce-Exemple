@@ -1,5 +1,6 @@
 <template>
     <AdminProductForm
+        ref="form"
         :parentProduct.sync="product"
         :operationToExecute="'add'"
         style="width: 75%; margin: 1.5rem auto 1.5rem auto"
@@ -22,6 +23,7 @@ export default {
     methods: {
         async add(payload) {
             await this.addProduct(payload);
+            this.$refs.form.resetData();
         },
         freshProductObject() {
             return {

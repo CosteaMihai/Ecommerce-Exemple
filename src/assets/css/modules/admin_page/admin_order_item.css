@@ -1,0 +1,100 @@
+.admin-order {
+    width: 80%;
+    margin: 50px auto;
+}
+.order-section {
+    margin-top: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.back-button {
+    background: #4299e1;
+    color: white;
+    width: 65px;
+    height: 27px;
+    border-radius: 3px;
+    transition: background 0.5s;
+}
+.back-button::before {
+    content: '<';
+    font-size: 18px;
+}
+.back-button:focus {
+    outline: 0;
+}
+.back-button:hover {
+    background: #2b6cb0;
+}
+.order-status-div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    transition: background 0.2s;
+    width: 150px;
+}
+.order-status-select {
+    background: transparent;
+    color: white;
+    padding: 5px 15px;
+    width: 100%;
+    appearance: none;
+    cursor: pointer;
+}
+.order-status-arraow {
+    position: absolute;
+    background: transparent;
+    color: white;
+    right: 10px;
+    transform: rotate(90deg);
+    font-size: 18px;
+    font-weight: 100;
+    transition: 0.3s;
+}
+.order-status-select:focus {
+    outline: 0;
+}
+.order-products {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 0px 20px 0px;
+
+    border-bottom: 1px solid #4299e1;
+}
+.order-products div:first-child {
+    display: flex;
+}
+
+.order-products img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+.order-product-total {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.order-owner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.order-owner div {
+    text-align: center;
+    margin-top: 10px;
+}
+.order-delete-button {
+    background: #fd4c4c;
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 5px 30px;
+}

@@ -1,0 +1,27 @@
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 300px;
+    margin: 40px auto 0px auto;
+}
+.admin-form-button {
+    margin: 30px auto 0px auto;
+    background: #4299e1;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+.admin-form-button:hover {
+    background: #3182ce;
+}
+.admin-form-button:focus {
+    outline: 0;
+}
+.error-admin-message {
+    margin-top: 20px;
+    text-align: center;
+    color: red;
+    font-style: italic;
+}

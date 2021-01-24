@@ -136,7 +136,7 @@ export default {
     data() {
         return {
             productPicture: '',
-            picture: '',
+            picture: null,
             loadingStatus: 'not-loading',
         };
     },
@@ -150,7 +150,7 @@ export default {
             this.$emit('change-photo', this.productPicture);
         },
         freshImage() {
-            this.picture = '';
+            this.picture = null;
             this.loadingStatus = 'not-loading';
             this.productPicture = '';
             this.$emit('change-photo', '');
@@ -168,5 +168,5 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/modules/admin_page/admin_photo_upload.css';
+@import './../../assets/css/modules/admin_page/admin_photo_upload.css';
 </style>

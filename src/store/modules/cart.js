@@ -4,7 +4,6 @@ export const state = {
 };
 export const mutations = {
     ADD_TO_CART(state, payload) {
-        console.log(state.cart);
         if (!state.cart.length) {
             state.cart.push(payload);
             return;
@@ -21,6 +20,7 @@ export const mutations = {
             state.cart.push(payload);
         }
     },
+
     DELETE_FROM_CART(state, payload) {
         for (let i of state.cart) {
             if (
@@ -31,23 +31,33 @@ export const mutations = {
             }
         }
     },
+
+    CLEAR_CART(state) {
+        state.cart = [];
+    },
 };
 export const actions = {
     addToCart({ commit }, payload) {
-        console.log(payload);
         commit('ADD_TO_CART', payload);
     },
+
     deleteFromCart({ commit }, payload) {
         commit('DELETE_FROM_CART', payload);
+    },
+
+    clearCart({ commit }) {
+        commit('CLEAR_CART');
     },
 };
 export const getters = {
     cartProducts: (state) => {
         return state.cart;
     },
+
     cartLength: (state) => {
         return state.cart.length;
     },
+
     totalCart: (state) => {
         return state.cart.length
             ? state.cart.reduce(

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import AdminCategoriesItem from '@/components/AdminCategoriesItem';
+import AdminCategoriesItem from '@/components/admin/AdminCategoriesItem';
 import { mapActions, mapGetters } from 'vuex';
 import { required, alpha } from 'vuelidate/lib/validators';
 export default {
@@ -83,40 +83,5 @@ export default {
 </script>
 
 <style scoped>
-.category-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.category-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: 80%;
-    margin: 50px;
-}
-.category-item {
-    position: relative;
-    background: #4299e1;
-    color: white;
-    text-align: center;
-    text-transform: uppercase;
-    border-radius: 3px;
-    margin: 10px;
-    padding: 5px;
-    transition: background 0.3s;
-}
-.category-item:hover {
-    background: #2b6cb0;
-}
-.category-add-button {
-    margin: 20px;
-    background: #4299e1;
-    color: white;
-    padding: 5px 20px;
-    border-radius: 3px;
-    transition: background 0.3s;
-}
-.category-add-button:hover {
-    background: #2b6cb0;
-}
+@import './../../assets/css/modules/admin_page/admin_categories.css';
 </style>

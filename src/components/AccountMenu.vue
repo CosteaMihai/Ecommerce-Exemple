@@ -1,5 +1,7 @@
 <template>
-    <div class="flex flex-col items-center h-full bg-blue-500 rounded-lg shadow-lg">
+    <div
+        class="flex flex-col items-center h-full bg-blue-500 rounded-lg shadow-lg"
+    >
         <div class="mt-5 text-white">
             <svg
                 class="w-24 h-24 fill-current"
@@ -41,7 +43,9 @@
                 <g></g>
             </svg>
         </div>
-        <div class="mt-2 text-white">{{ currentUser.firstName }} {{ currentUser.lastName }}</div>
+        <div class="mt-2 text-white">
+            {{ currentUser.firstName }} {{ currentUser.lastName }}
+        </div>
         <div class="w-full px-10">
             <button
                 @click.prevent="$emit('modifyState', 1)"
@@ -55,7 +59,10 @@
             >
                 Personal Info
             </button>
-            <button @click.prevent="logOut()" class="w-full py-3 mt-6 text-white bg-blue-800 rounded-lg shadow-lg">
+            <button
+                @click.prevent="logOut()"
+                class="w-full py-3 mt-6 text-white bg-blue-800 rounded-lg shadow-lg"
+            >
                 Log out
             </button>
         </div>
@@ -63,16 +70,15 @@
 </template>
 
 <script>
-import store from '../store/index';
-import Cookies from 'js-cookie';
+import { mapActions } from 'vuex';
 export default {
     props: ['currentUser'],
     methods: {
         logOut() {
-            Cookies.remove('licenta-user');
-            store.commit('deleteCurrentUser');
+            this.clearUser();
             this.$router.push({ path: '/' });
         },
+        ...mapActions('user', ['clearUser']),
     },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <header
-            class="bg-white sm:flex sm:justify-between sm:items-center sm:px-8 sm:py:3"
+            class="bg-transparent sm:flex sm:justify-between sm:items-center sm:px-8 sm:py:3"
         >
             <div class="flex items-center justify-between px-4 py-3 sm:p-0">
                 <div>
@@ -44,7 +44,7 @@
                 </router-link>
 
                 <router-link
-                    v-if="!currentUser"
+                    v-if="!isCurrentUser"
                     :to="{ path: '/login' }"
                     class="block px-2 py-1 mt-1 font-semibold text-blue-700 rounded sm:mt-0 sm:ml-2"
                 >
@@ -89,7 +89,7 @@
                 </router-link>
             </nav>
         </header>
-        <nav class="px-8 pt-2 bg-white shadow-md">
+        <nav class="px-8 pt-2 bg-transparent shadow-md">
             <div class="flex justify-center -mb-px">
                 <a
                     class="py-3 mr-8 text-xs font-bold tracking-wide no-underline uppercase border-b-2 border-transparent text-grey-dark hover:underline"
@@ -127,9 +127,7 @@ export default {
     },
     computed: {
         ...mapGetters('cart', ['cartLength']),
-        currentUser() {
-            return store.state.currentUser ? true : false;
-        },
+        ...mapGetters('user', ['isCurrentUser', 'currentUser']),
     },
 };
 </script>

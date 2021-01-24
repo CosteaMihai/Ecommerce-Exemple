@@ -1,30 +1,17 @@
 <template>
     <div>
-        <form class="flex flex-col justify-center max-w-xs mx-auto mt-10">
-            <div class="text-center">Admin</div>
-            <input
-                type="text"
-                class="w-full px-2 py-1 mt-1 mb-4 text-center bg-gray-200 rounded-lg"
-                v-model="admin"
-                disabled
+        <form class="admin-form">
+            <BaseInput v-model="adminEmail" :label="'Admin'" />
+            <BaseInput
+                v-model="adminPassword"
+                :label="'Password'"
+                :type="'password'"
             />
-            <div class="text-center">Password</div>
-            <input
-                type="password"
-                class="w-full px-2 py-1 mt-1 mb-8 text-center bg-gray-200 rounded-lg"
-                v-model="password"
-            />
-            <button
-                class="py-2 mx-16 text-white bg-blue-500 rounded-lg"
-                @click.prevent="verifyAdmin()"
-            >
-                Verify
+            <button class="admin-form-button" @click.prevent="verifyAdmin()">
+                Sign In
             </button>
-            <div
-                v-if="error == 'password'"
-                class="mt-6 italic text-center text-red-500"
-            >
-                Wrong Password
+            <div v-if="error" class="error-admin-message">
+                Wrong Password!
             </div>
         </form>
     </div>
@@ -32,39 +19,35 @@
 
 <script>
 import { db } from '@/main';
+import { mapActions, mapGetters } from 'vuex';
+import Cookies from 'js-cookie';
 export default {
     data() {
         return {
-            admin: 'admin',
-            password: 'admin',
+            adminEmail: 'admin@ecommerce.com',
+            adminPassword: '',
             loginDone: false,
-            error: '',
+            //adminecommerce
         };
     },
     methods: {
         async verifyAdmin() {
-            this.error = '';
-            const docRef = db.collection('users').doc('GnzbFUiTmb9miCLZTyvB');
-            await docRef
-                .get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        if (this.password == doc.data().password) {
-                            this.$router.push({ name: 'Admin Dashboard' });
-                        } else {
-                            this.error = 'password';
-                        }
-                    } else {
-                        // doc.data() will be undefined in this case
-                        console.log('No such document!');
-                    }
-                })
-                .catch(function(error) {
-                    console.log('Error getting document:', error);
-                });
+            await this.signInAdmin({
+                email: this.adminEmail,
+                password: this.adminPassword,
+            });
+            if (this.isAdminAuthenticated) {
+                this.$router.push({ name: 'Admin Dashboard' });
+            }
         },
+        ...mapActions('admin', ['signInAdmin']),
+    },
+    computed: {
+        ...mapGetters('admin', ['isAdminAuthenticated', 'error']),
     },
 };
 </script>
 
-<style></style>
+<style scoped>
+@import './../../assets/css/modules/admin_page/admin_login.css';
+</style>

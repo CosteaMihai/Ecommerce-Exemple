@@ -232,5 +232,5 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/modules/admin_page/admin_card.css';
+@import './../../assets/css/modules/admin_page/admin_card.css';
 </style>

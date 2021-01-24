@@ -6,7 +6,8 @@
             class="specification-section"
         >
             <BaseInput
-                :label="'Titile'"
+                :label="'Title'"
+                :id="`Titile${index}`"
                 v-model.lazy="row.title.$model"
                 :error="row.title.$error"
                 @blur="row.title.$touch()"
@@ -18,6 +19,7 @@
                 @blur="row.description.$touch()"
                 style="grid-column-start:6;grid-column-end: span 4;"
                 :label="'Description'"
+                :id="`Description${index}`"
                 v-model.lazy="row.description.$model"
             />
             <div class="specification-button-add">
@@ -135,5 +137,5 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/modules/admin_page/admin_specification.css';
+@import './../../assets/css/modules/admin_page/admin_specification.css';
 </style>

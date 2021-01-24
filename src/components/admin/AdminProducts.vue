@@ -49,11 +49,12 @@
         </div>
         <div v-if="noOfProducts > 0">
             <div class="container">
-                <ProductCard
+                <AdminProductsCard
                     v-for="product in products"
                     :key="product.id"
                     :product="product"
                     :nextOrPrevious="nextOrPrevious"
+                    @open="openModal(product)"
                 />
             </div>
             <div v-show="products.length" class="secitionPreviousNext">
@@ -148,24 +149,40 @@
                     </svg>
                 </button>
             </div>
+
+            <AdminProductsModal
+                v-if="isModalOpen"
+                :product="product"
+                :isModalOpen="isModalOpen"
+                @close-modal="closeModal()"
+            />
         </div>
         <div v-else class="no-products">
-            <p>There are no products with this filters</p>
-            <p>Select other filter oprions</p>
+            <p>You have no products added in Database!</p>
+            <p>Go and add some products:</p>
+            <button
+                class="no-products-button"
+                @click.prevent="$emit('change-to-add')"
+            >
+                Add products
+            </button>
         </div>
     </div>
 </template>
 
 <script>
-import ProductCard from './../components/ProductCard';
+import AdminProductsCard from './AdminProductsCard';
+import AdminProductsModal from './AdminProductsModal';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
     components: {
-        ProductCard,
+        AdminProductsModal,
+        AdminProductsCard,
     },
     data() {
         return {
+            isModalOpen: false,
             product: {},
             nextOrPrevious: '',
             orderBy: 'name-asc',
@@ -203,8 +220,16 @@ export default {
             await this.previousPage();
             this.nextOrPrevious = 'previous';
         },
+        openModal(product) {
+            this.product = { ...product };
+            this.isModalOpen = true;
+            document.documentElement.style.overflow = 'hidden';
+        },
+        closeModal() {
+            this.isModalOpen = false;
+            document.documentElement.style.overflow = 'auto';
+        },
         ...mapActions('product', [
-            'initialPage',
             'nextPage',
             'previousPage',
             'setOrderBy',
@@ -220,12 +245,9 @@ export default {
         ]),
         ...mapGetters('categories', ['categories']),
     },
-    async mounted() {
-        await this.setCategory(this.selectedCategory);
-    },
 };
 </script>
 
 <style scoped>
-@import './../assets/css/modules/admin_page/admin_products.css';
+@import './../../assets/css/modules/admin_page/admin_products.css';
 </style>
